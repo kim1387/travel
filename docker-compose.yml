@@ -1,0 +1,39 @@
+version: "3"
+
+services:
+
+  backend:
+    container_name: backend
+    image: ce19f003/triple-coding-test-backend
+    depends_on:
+      - mysqldb
+    ports:
+      - '8080:8080'
+    networks:
+      - network-tier
+    tty: true
+
+  mysqldb:
+    image: mysql:5.7
+    container_name: triple-coding-test-mysqldb
+    env_file:
+      - "./.env"
+    command:
+      [
+        "--character-set-server=utf8mb4",
+        "--collation-server=utf8mb4_unicode_ci",
+      ]
+    volumes:
+      - mysql-data:/msql
+    ports:
+      - "3306:3306"
+
+    networks:
+      - network-tier
+
+networks:
+  network-tier:
+    driver: bridge
+
+volumes:
+  mysql-data:
