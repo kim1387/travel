@@ -46,6 +46,7 @@ class CityControllerTest {
       WebApplicationContext webApplicationContext,
       RestDocumentationContextProvider restDocumentationContextProvider) {
     objectMapper = new ObjectMapper();
+    objectMapper.registerModule(new JavaTimeModule());
     mockMvc =
         MockMvcBuilders.webAppContextSetup(webApplicationContext)
             .addFilter(new CharacterEncodingFilter(StandardCharsets.UTF_8.name(), true))
