@@ -1,10 +1,7 @@
 package com.interpark.triple.domain.city.domain.entity;
 
 import com.interpark.triple.global.domain.BaseEntity;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -14,16 +11,23 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "city")
 public class City extends BaseEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    @Column(name = "name", nullable = false)
-    private String name;
+  @Column(name = "name", nullable = false)
+  private String name;
 
-    @Column(name = "intro_content", nullable = false)
-    private String introContent;
+  @Column(name = "intro_content", nullable = false)
+  private String introContent;
 
-    @Column(name = "view", nullable = false)
-    private Integer view;
+  @Column(name = "view", nullable = false)
+  private Integer view;
+
+  @Builder
+  public City(String name, String introContent) {
+    this.name = name;
+    this.introContent = introContent;
+    this.view = 0;
+  }
 }

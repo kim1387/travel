@@ -14,12 +14,10 @@ import java.time.LocalDateTime;
 @EntityListeners(value = {AuditingEntityListener.class})
 @MappedSuperclass
 public abstract class BaseEntity {
-    @CreatedDate
-    private LocalDateTime createdDate;
+  @CreatedDate private LocalDateTime createdDate;
 
-    @LastModifiedDate
-    private LocalDateTime updatedDate;
+  @LastModifiedDate private LocalDateTime updatedDate;
 
-    @Column(name = "is_activated", nullable = false)
-    private boolean isActivated;
+  @Column(name = "is_activated", nullable = false)
+  private boolean isActivated;
 }
