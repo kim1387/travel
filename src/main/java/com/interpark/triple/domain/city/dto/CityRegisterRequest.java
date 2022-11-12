@@ -4,7 +4,6 @@ import lombok.*;
 
 @Builder
 @Getter
-@AllArgsConstructor
 @RequiredArgsConstructor
 public class CityRegisterRequest {
 
