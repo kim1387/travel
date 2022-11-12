@@ -1,5 +1,6 @@
 package com.interpark.triple.domain.city.domain.entity;
 
+import com.interpark.triple.domain.city.dto.CityUpdateRequest;
 import com.interpark.triple.global.domain.BaseEntity;
 import lombok.*;
 
@@ -47,5 +48,10 @@ public class City extends BaseEntity {
   @Override
   public int hashCode() {
     return Objects.hash(id, name, introContent, view);
+  }
+
+  public void updateCityInfo(CityUpdateRequest cityUpdateRequest) {
+      this.name = cityUpdateRequest.getCityName();
+      this.introContent = cityUpdateRequest.getCityIntroContent();
   }
 }
