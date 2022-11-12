@@ -1,0 +1,21 @@
+spring:
+  jpa:
+    database: "mysql"
+    show-sql: "true"
+    hibernate:
+      ddl-auto: "update"
+    properties:
+      hibernate:
+        format_sql: true
+    generate-ddl: true
+
+  datasource:
+    driver-class-name: "com.mysql.cj.jdbc.Driver"
+    url: "jdbc:mysql://localhost:3306/test_db?useSSL=false&useLegacyDatetimeCode=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul&characterEncoding=UTF-8&autoReconnect=true&createDatabaseIfNotExist=true"
+    username: "root"
+    password: "0000"
+
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+
