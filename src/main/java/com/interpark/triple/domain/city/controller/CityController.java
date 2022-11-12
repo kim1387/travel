@@ -30,5 +30,9 @@ public class CityController {
     return ResponseEntity.ok(ResultResponse.of(ResultCode.CITY_UPDATE_SUCCESS, cityInfoResponse));
   }
 
-
+  @DeleteMapping("/{id}")
+  public ResponseEntity<ResultResponse> deleteCity(@PathVariable Long id) {
+    cityService.deleteCity(id);
+    return ResponseEntity.ok(ResultResponse.of(ResultCode.CITY_DELETE_SUCCESS, new Object()));
+  }
 }

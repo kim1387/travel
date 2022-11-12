@@ -54,4 +54,8 @@ public class City extends BaseEntity {
       this.name = cityUpdateRequest.getCityName();
       this.introContent = cityUpdateRequest.getCityIntroContent();
   }
+
+  public void deleteCity() {
+    updateActivated(false);
+  }
 }

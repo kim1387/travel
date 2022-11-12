@@ -31,6 +31,11 @@ public class CityService {
     return mapCityEntityToCityInfoResponse(updatedCity);
   }
 
+  public void deleteCity(Long id) {
+    City foundCity = cityRepository.findCityById(id).orElseThrow(NotFoundCityEntityException::new);
+    foundCity.deleteCity();
+  }
+
   private CityInfoResponse mapCityEntityToCityInfoResponse(City savedCity) {
     return CityInfoResponse.builder()
         .name(savedCity.getName())

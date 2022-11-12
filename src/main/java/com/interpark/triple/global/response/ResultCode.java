@@ -13,6 +13,7 @@ public enum ResultCode {
   // city
   CITY_REGISTER_SUCCESS("C001", "도시 등록 성공"),
   CITY_UPDATE_SUCCESS("C002", "도시 수정 성공"),
+  CITY_DELETE_SUCCESS("C003", "도시 삭제 성공"),
 
   ;
 
