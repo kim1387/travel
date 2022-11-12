@@ -29,5 +29,6 @@ public class City extends BaseEntity {
     this.name = name;
     this.introContent = introContent;
     this.view = 0;
+    updateActivated(true);
   }
 }

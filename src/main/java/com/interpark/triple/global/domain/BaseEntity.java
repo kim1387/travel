@@ -20,4 +20,8 @@ public abstract class BaseEntity {
 
   @Column(name = "is_activated", nullable = false)
   private boolean isActivated;
+
+  public void updateActivated(boolean isActivated) {
+    this.isActivated = isActivated;
+  }
 }
