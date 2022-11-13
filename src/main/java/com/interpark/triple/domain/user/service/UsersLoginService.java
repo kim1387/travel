@@ -8,11 +8,11 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class UserLoginService {
+public class UsersLoginService {
 
     private final UsersRepository usersRepository;
 
-    public Users findUsersById(Long userId){
+    public Users findLoginUsersById(Long userId){
         return usersRepository.findUserById(userId).orElseThrow(NotFoundUserEntityException::new);
     }
 }
