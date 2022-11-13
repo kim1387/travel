@@ -22,19 +22,19 @@ public class CityController {
   @PostMapping
   public ResponseEntity<ResultResponse> registerCity(@Valid CityRegisterRequest request) {
     CityInfoResponse cityInfoResponse = cityService.registerCity(request);
-    return ResponseEntity.ok(ResultResponse.of(ResultCode.CITY_REGISTER_SUCCESS, cityInfoResponse));
+    return ResponseEntity.ok(ResultResponse.of(ResultCode.CREATE_CITY_SUCCESS, cityInfoResponse));
   }
 
   @PutMapping
   public ResponseEntity<ResultResponse> updateCity(@Valid CityUpdateRequest request) {
     CityInfoResponse cityInfoResponse = cityService.updateCityInfo(request);
-    return ResponseEntity.ok(ResultResponse.of(ResultCode.CITY_UPDATE_SUCCESS, cityInfoResponse));
+    return ResponseEntity.ok(ResultResponse.of(ResultCode.UPDATE_CITY_SUCCESS, cityInfoResponse));
   }
 
   @DeleteMapping("/{id}")
   public ResponseEntity<ResultResponse> deleteCity(@PathVariable Long id) {
     cityService.deleteCity(id);
-    return ResponseEntity.ok(ResultResponse.of(ResultCode.CITY_DELETE_SUCCESS, new Object()));
+    return ResponseEntity.ok(ResultResponse.of(ResultCode.DELETE_CITY_SUCCESS, new Object()));
   }
 
   @GetMapping("/{id}")
