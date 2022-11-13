@@ -1,4 +1,4 @@
-package com.interpark.triple.domain.user.domain;
+package com.interpark.triple.domain.user.domain.entity;
 
 import com.interpark.triple.global.domain.BaseEntity;
 import lombok.*;
