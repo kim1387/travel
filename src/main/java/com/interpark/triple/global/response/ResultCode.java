@@ -3,14 +3,10 @@ package com.interpark.triple.global.response;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-/**
- * Enum Naming Format : {행위}_{목적어}_{성공여부}
- * message format: 동사 명사형으로 마무리
- */
+/** Enum Naming Format : {행위}_{목적어}_{성공여부} message format: 동사 명사형으로 마무리 */
 @Getter
 @AllArgsConstructor
 public enum ResultCode {
-
 
   // user
   USER_CREATE_SUCCESS("U001", "사용자 생성 성공"),
@@ -21,6 +17,8 @@ public enum ResultCode {
   DELETE_CITY_SUCCESS("C003", "도시 삭제 성공"),
   GET_ONE_CITY_SUCCESS("C004", "단일 도시 조회 성공"),
 
+  // travelReservation
+  CREATE_TRAVEL_RESERVATION_SUCCESS("TR001", "여행 예약 성공"),
   ;
 
   private final String code;
