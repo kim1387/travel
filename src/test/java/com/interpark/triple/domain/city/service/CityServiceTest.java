@@ -2,7 +2,7 @@ package com.interpark.triple.domain.city.service;
 
 import com.interpark.triple.domain.city.domain.entity.City;
 import com.interpark.triple.domain.city.domain.repository.CityRepository;
-import com.interpark.triple.domain.city.dto.CityInfoResponse;
+import com.interpark.triple.domain.city.dto.CityInfo;
 import com.interpark.triple.domain.city.dto.CityRegisterRequest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -37,15 +37,15 @@ class CityServiceTest {
             .cityName(givenCityName)
             .cityIntroContent(givenCityIntroContent)
             .build();
-    CityInfoResponse expectedResponse =
-        CityInfoResponse.builder().name(givenCityName).introContent(givenCityIntroContent).build();
+    CityInfo expectedResponse =
+        CityInfo.builder().name(givenCityName).introContent(givenCityIntroContent).build();
 
     City expectReturnCity =
         City.builder().name(givenCityName).introContent(givenCityIntroContent).build();
 
     // when
     when(cityRepository.save(any())).thenReturn(expectReturnCity);
-    CityInfoResponse actualResponse = cityService.registerCity(givenRequest);
+    CityInfo actualResponse = cityService.registerCity(givenRequest);
 
     // then
     assertAll(
