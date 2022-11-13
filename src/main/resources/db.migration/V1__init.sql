@@ -21,7 +21,7 @@ create table if not exists users
     role         varchar(255) not null
     );
 
-create table if not exists travel_reservation
+create table if not exists travel
 (
     id           bigint auto_increment
     primary key,

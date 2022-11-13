@@ -1,4 +1,4 @@
-package com.interpark.triple.domain.reservation.dto;
+package com.interpark.triple.domain.travel.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,9 +9,7 @@ import java.time.LocalDateTime;
 @Builder
 @Getter
 @AllArgsConstructor
-public class TravelReservationInfo {
-
-  private Long reservationId;
+public class TravelInfo {
 
   private String cityName;
 
