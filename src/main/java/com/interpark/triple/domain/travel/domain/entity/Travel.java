@@ -1,4 +1,4 @@
-package com.interpark.triple.domain.reservation.domain.entity;
+package com.interpark.triple.domain.travel.domain.entity;
 
 import com.interpark.triple.domain.city.domain.entity.City;
 import com.interpark.triple.domain.user.domain.entity.Users;
@@ -12,8 +12,8 @@ import java.time.LocalDateTime;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "travel_reservation")
-public class TravelReservation extends BaseEntity {
+@Table(name = "travel")
+public class Travel extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,10 +34,15 @@ public class TravelReservation extends BaseEntity {
     private LocalDateTime endAt;
 
     @Builder
-    public TravelReservation(Users users, City city, LocalDateTime startAt, LocalDateTime endAt) {
+    public Travel(Users users, City city, LocalDateTime startAt, LocalDateTime endAt) {
         this.users = users;
         this.city = city;
         this.startAt = startAt;
         this.endAt = endAt;
+        this.isActivated = true;
+    }
+
+    public boolean isCanceled() {
+        return !this.isActivated;
     }
 }
