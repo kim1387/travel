@@ -6,6 +6,8 @@ import com.interpark.triple.domain.travel.domain.entity.Travel;
 import com.interpark.triple.domain.travel.domain.repository.TravelRepository;
 import com.interpark.triple.domain.travel.dto.TravelCreateRequest;
 import com.interpark.triple.domain.travel.dto.TravelInfo;
+import com.interpark.triple.domain.travel.dto.TravelUpdateRequest;
+import com.interpark.triple.domain.travel.exception.NotFoundTravelEntityException;
 import com.interpark.triple.domain.user.domain.entity.Users;
 import com.interpark.triple.domain.user.service.UsersLoginService;
 import lombok.RequiredArgsConstructor;
@@ -25,21 +27,19 @@ public class TravelService {
 
     Travel newTravel = createNewTravelEntity(request);
 
-    Travel savedTravel =
-        travelRepository.save(newTravel);
+    Travel savedTravel = travelRepository.save(newTravel);
 
     return mapTravelEntityToInfo(savedTravel);
   }
 
-  private Travel createNewTravelEntity(
-      TravelCreateRequest request) {
+  private Travel createNewTravelEntity(TravelCreateRequest request) {
     Users loginUsers = usersLoginService.findLoginUsersById(request.getUserId());
     City foundCity = cityService.findCityById(request.getCityId());
     return mapCreateTravelRequestToEntity(request, loginUsers, foundCity);
   }
 
   private Travel mapCreateTravelRequestToEntity(
-          TravelCreateRequest request, Users loginUsers, City foundCity) {
+      TravelCreateRequest request, Users loginUsers, City foundCity) {
     return Travel.builder()
         .users(loginUsers)
         .city(foundCity)
@@ -48,8 +48,7 @@ public class TravelService {
         .build();
   }
 
-  private TravelInfo mapTravelEntityToInfo(
-      Travel savedTravel) {
+  private TravelInfo mapTravelEntityToInfo(Travel savedTravel) {
     return TravelInfo.builder()
         .cityName(savedTravel.getCity().getName())
         .userName(savedTravel.getUsers().getName())
@@ -59,5 +58,20 @@ public class TravelService {
         .build();
   }
 
+  public TravelInfo updateTravel(TravelUpdateRequest request) {
 
+    Travel foundTravel = findTravelWithCityAndUsersById(request);
+    City foundCityForUpdate = cityService.findCityById(request.getCityId());
+
+    foundTravel.updateTravelInfo(request, foundCityForUpdate);
+    Travel savedTravel = travelRepository.save(foundTravel);
+
+    return mapTravelEntityToInfo(savedTravel);
+  }
+
+  public Travel findTravelWithCityAndUsersById(TravelUpdateRequest request) {
+    return travelRepository
+        .findTravelWithCityAndUsersById(request.getTravelId())
+        .orElseThrow(NotFoundTravelEntityException::new);
+  }
 }

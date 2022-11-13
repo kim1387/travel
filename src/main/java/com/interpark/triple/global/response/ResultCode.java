@@ -18,7 +18,8 @@ public enum ResultCode {
   GET_ONE_CITY_SUCCESS("C004", "단일 도시 조회 성공"),
 
   // travel
-  CREATE_TRAVEL_SUCCESS("TR001", "여행지 등록 성공"),
+  CREATE_TRAVEL_SUCCESS("T001", "여행지 등록 성공"),
+  UPDATE_TRAVEL_SUCCESS("T002", "여행지 수정 성공"),
   ;
 
   private final String code;
