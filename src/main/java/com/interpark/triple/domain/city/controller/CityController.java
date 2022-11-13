@@ -1,0 +1,45 @@
+package com.interpark.triple.domain.city.controller;
+
+import com.interpark.triple.domain.city.dto.CityInfoResponse;
+import com.interpark.triple.domain.city.dto.CityRegisterRequest;
+import com.interpark.triple.domain.city.dto.CityUpdateRequest;
+import com.interpark.triple.domain.city.service.CityService;
+import com.interpark.triple.global.response.ResultCode;
+import com.interpark.triple.global.response.ResultResponse;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+
+@RequestMapping("/api/v1/city")
+@RestController
+@RequiredArgsConstructor
+public class CityController {
+
+  private final CityService cityService;
+
+  @PostMapping
+  public ResponseEntity<ResultResponse> registerCity(@Valid CityRegisterRequest request) {
+    CityInfoResponse cityInfoResponse = cityService.registerCity(request);
+    return ResponseEntity.ok(ResultResponse.of(ResultCode.CREATE_CITY_SUCCESS, cityInfoResponse));
+  }
+
+  @PutMapping
+  public ResponseEntity<ResultResponse> updateCity(@Valid CityUpdateRequest request) {
+    CityInfoResponse cityInfoResponse = cityService.updateCityInfo(request);
+    return ResponseEntity.ok(ResultResponse.of(ResultCode.UPDATE_CITY_SUCCESS, cityInfoResponse));
+  }
+
+  @DeleteMapping("/{id}")
+  public ResponseEntity<ResultResponse> deleteCity(@PathVariable Long id) {
+    cityService.deleteCity(id);
+    return ResponseEntity.ok(ResultResponse.of(ResultCode.DELETE_CITY_SUCCESS, new Object()));
+  }
+
+  @GetMapping("/{id}")
+  public ResponseEntity<ResultResponse> findCityById(@PathVariable Long id) {
+    CityInfoResponse cityInfoResponse = cityService.findCityById(id);
+    return ResponseEntity.ok(ResultResponse.of(ResultCode.GET_ONE_CITY_SUCCESS, cityInfoResponse));
+  }
+}
