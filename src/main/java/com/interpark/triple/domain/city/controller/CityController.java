@@ -24,6 +24,7 @@ public class CityController {
     CityInfoResponse cityInfoResponse = cityService.registerCity(request);
     return ResponseEntity.ok(ResultResponse.of(ResultCode.CITY_REGISTER_SUCCESS, cityInfoResponse));
   }
+
   @PutMapping
   public ResponseEntity<ResultResponse> updateCity(@Valid CityUpdateRequest request) {
     CityInfoResponse cityInfoResponse = cityService.updateCityInfo(request);
@@ -34,5 +35,11 @@ public class CityController {
   public ResponseEntity<ResultResponse> deleteCity(@PathVariable Long id) {
     cityService.deleteCity(id);
     return ResponseEntity.ok(ResultResponse.of(ResultCode.CITY_DELETE_SUCCESS, new Object()));
+  }
+
+  @GetMapping("/{id}")
+  public ResponseEntity<ResultResponse> findCityById(@PathVariable Long id) {
+    CityInfoResponse cityInfoResponse = cityService.findCityById(id);
+    return ResponseEntity.ok(ResultResponse.of(ResultCode.GET_ONE_CITY_SUCCESS, cityInfoResponse));
   }
 }
