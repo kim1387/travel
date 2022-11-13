@@ -22,10 +22,7 @@ public class CityService {
   }
 
   public CityInfo updateCityInfo(CityUpdateRequest cityUpdateRequest) {
-    City foundCity =
-        cityRepository
-            .findCityById(cityUpdateRequest.getCityId())
-            .orElseThrow(NotFoundCityEntityException::new);
+    City foundCity = findCityById(cityUpdateRequest.getCityId());
     foundCity.updateCityInfo(cityUpdateRequest);
     City updatedCity = cityRepository.save(foundCity);
     return mapCityEntityToCityInfoResponse(updatedCity);
@@ -36,10 +33,15 @@ public class CityService {
     foundCity.deleteCity();
   }
 
-  public CityInfo findCityById(Long id) {
-    City foundCity = cityRepository.findCityById(id).orElseThrow(NotFoundCityEntityException::new);
+  public CityInfo findCityInfoById(Long id) {
+    City foundCity = findCityById(id);
     return mapCityEntityToCityInfoResponse(foundCity);
   }
+
+  public City findCityById(Long id) {
+    return cityRepository.findCityById(id).orElseThrow(NotFoundCityEntityException::new);
+  }
+
 
   private CityInfo mapCityEntityToCityInfoResponse(City savedCity) {
     return CityInfo.builder()

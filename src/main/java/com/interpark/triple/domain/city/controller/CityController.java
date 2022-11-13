@@ -39,7 +39,7 @@ public class CityController {
 
   @GetMapping("/{id}")
   public ResponseEntity<ResultResponse> findCityById(@PathVariable Long id) {
-    CityInfo cityInfo = cityService.findCityById(id);
+    CityInfo cityInfo = cityService.findCityInfoById(id);
     return ResponseEntity.ok(ResultResponse.of(ResultCode.GET_ONE_CITY_SUCCESS, cityInfo));
   }
 }
