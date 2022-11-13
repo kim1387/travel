@@ -19,7 +19,7 @@ public abstract class BaseEntity {
   @LastModifiedDate private LocalDateTime updatedDate;
 
   @Column(name = "is_activated", nullable = false)
-  private boolean isActivated;
+  protected boolean isActivated;
 
   public void updateActivated(boolean isActivated) {
     this.isActivated = isActivated;
