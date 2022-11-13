@@ -1,6 +1,6 @@
 package com.interpark.triple.domain.city.controller;
 
-import com.interpark.triple.domain.city.dto.CityInfoResponse;
+import com.interpark.triple.domain.city.dto.CityInfo;
 import com.interpark.triple.domain.city.dto.CityRegisterRequest;
 import com.interpark.triple.domain.city.dto.CityUpdateRequest;
 import com.interpark.triple.domain.city.service.CityService;
@@ -21,14 +21,14 @@ public class CityController {
 
   @PostMapping
   public ResponseEntity<ResultResponse> registerCity(@Valid CityRegisterRequest request) {
-    CityInfoResponse cityInfoResponse = cityService.registerCity(request);
-    return ResponseEntity.ok(ResultResponse.of(ResultCode.CREATE_CITY_SUCCESS, cityInfoResponse));
+    CityInfo cityInfo = cityService.registerCity(request);
+    return ResponseEntity.ok(ResultResponse.of(ResultCode.CREATE_CITY_SUCCESS, cityInfo));
   }
 
   @PutMapping
   public ResponseEntity<ResultResponse> updateCity(@Valid CityUpdateRequest request) {
-    CityInfoResponse cityInfoResponse = cityService.updateCityInfo(request);
-    return ResponseEntity.ok(ResultResponse.of(ResultCode.UPDATE_CITY_SUCCESS, cityInfoResponse));
+    CityInfo cityInfo = cityService.updateCityInfo(request);
+    return ResponseEntity.ok(ResultResponse.of(ResultCode.UPDATE_CITY_SUCCESS, cityInfo));
   }
 
   @DeleteMapping("/{id}")
@@ -39,7 +39,7 @@ public class CityController {
 
   @GetMapping("/{id}")
   public ResponseEntity<ResultResponse> findCityById(@PathVariable Long id) {
-    CityInfoResponse cityInfoResponse = cityService.findCityById(id);
-    return ResponseEntity.ok(ResultResponse.of(ResultCode.GET_ONE_CITY_SUCCESS, cityInfoResponse));
+    CityInfo cityInfo = cityService.findCityById(id);
+    return ResponseEntity.ok(ResultResponse.of(ResultCode.GET_ONE_CITY_SUCCESS, cityInfo));
   }
 }

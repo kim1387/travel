@@ -2,7 +2,7 @@ package com.interpark.triple.domain.city.service;
 
 import com.interpark.triple.domain.city.domain.entity.City;
 import com.interpark.triple.domain.city.domain.repository.CityRepository;
-import com.interpark.triple.domain.city.dto.CityInfoResponse;
+import com.interpark.triple.domain.city.dto.CityInfo;
 import com.interpark.triple.domain.city.dto.CityRegisterRequest;
 import com.interpark.triple.domain.city.dto.CityUpdateRequest;
 import com.interpark.triple.domain.city.exception.NotFoundCityEntityException;
@@ -14,14 +14,14 @@ import org.springframework.stereotype.Service;
 public class CityService {
   private final CityRepository cityRepository;
 
-  public CityInfoResponse registerCity(CityRegisterRequest cityRegisterRequest) {
+  public CityInfo registerCity(CityRegisterRequest cityRegisterRequest) {
     City newCity = convertCityFromRequest(cityRegisterRequest);
     City savedCity = cityRepository.save(newCity);
 
     return mapCityEntityToCityInfoResponse(savedCity);
   }
 
-  public CityInfoResponse updateCityInfo(CityUpdateRequest cityUpdateRequest) {
+  public CityInfo updateCityInfo(CityUpdateRequest cityUpdateRequest) {
     City foundCity =
         cityRepository
             .findCityById(cityUpdateRequest.getCityId())
@@ -36,13 +36,13 @@ public class CityService {
     foundCity.deleteCity();
   }
 
-  public CityInfoResponse findCityById(Long id) {
+  public CityInfo findCityById(Long id) {
     City foundCity = cityRepository.findCityById(id).orElseThrow(NotFoundCityEntityException::new);
     return mapCityEntityToCityInfoResponse(foundCity);
   }
 
-  private CityInfoResponse mapCityEntityToCityInfoResponse(City savedCity) {
-    return CityInfoResponse.builder()
+  private CityInfo mapCityEntityToCityInfoResponse(City savedCity) {
+    return CityInfo.builder()
         .name(savedCity.getName())
         .introContent(savedCity.getIntroContent())
         .createdAt(savedCity.getCreatedDate())

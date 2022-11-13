@@ -3,7 +3,7 @@ package com.interpark.triple.domain.city.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.interpark.triple.domain.city.controller.document.CityRestDocument;
-import com.interpark.triple.domain.city.dto.CityInfoResponse;
+import com.interpark.triple.domain.city.dto.CityInfo;
 import com.interpark.triple.domain.city.dto.CityRegisterRequest;
 import com.interpark.triple.domain.city.service.CityService;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,7 +28,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(RestDocumentationExtension.class)
@@ -58,8 +57,8 @@ class CityControllerTest {
   @DisplayName("city 등록 api")
   void registerCity() throws Exception {
     // given
-    CityInfoResponse cityInfoResponse =
-        CityInfoResponse.builder()
+    CityInfo cityInfo =
+        CityInfo.builder()
             .name("한국")
             .introContent("간단한 한국 소개")
             .createdAt(LocalDateTime.now())
@@ -68,7 +67,7 @@ class CityControllerTest {
     CityRegisterRequest cityRegisterRequest =
         CityRegisterRequest.builder().cityName("한국").cityIntroContent("간단한 한국 소개").build();
     // when
-    when(cityService.registerCity(any())).thenReturn(cityInfoResponse);
+    when(cityService.registerCity(any())).thenReturn(cityInfo);
 
     // then
     mockMvc

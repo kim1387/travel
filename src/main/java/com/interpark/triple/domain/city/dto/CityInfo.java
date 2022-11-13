@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CityInfoResponse {
+public class CityInfo {
 
     private String name;
 
