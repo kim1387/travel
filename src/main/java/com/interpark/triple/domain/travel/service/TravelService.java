@@ -1,6 +1,7 @@
 package com.interpark.triple.domain.travel.service;
 
 import com.interpark.triple.domain.city.domain.entity.City;
+import com.interpark.triple.domain.city.dto.CityInfo;
 import com.interpark.triple.domain.city.service.CityService;
 import com.interpark.triple.domain.travel.domain.entity.Travel;
 import com.interpark.triple.domain.travel.domain.repository.TravelRepository;
@@ -12,6 +13,8 @@ import com.interpark.triple.domain.user.domain.entity.Users;
 import com.interpark.triple.domain.user.service.UsersLoginService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -54,7 +57,6 @@ public class TravelService {
         .userName(savedTravel.getUsers().getName())
         .startTravelAt(savedTravel.getStartAt())
         .endTravelAt(savedTravel.getEndAt())
-        .isCanceled(savedTravel.isCanceled())
         .build();
   }
 
@@ -90,4 +92,11 @@ public class TravelService {
     return mapTravelEntityToInfo(foundTravel);
   }
 
+  public List<TravelInfo> findCurrentTravelOrderByStartAt(Long userId) {
+    return travelRepository.findCurrentTravelOrderByStartAt(userId);
+  }
+
+  public List<CityInfo> findWillTravelOrderByStartAtDesc(Long userId, Integer limit) {
+    return travelRepository.findWillTravelOrderByStartAtAsc(userId, limit);
+  }
 }
