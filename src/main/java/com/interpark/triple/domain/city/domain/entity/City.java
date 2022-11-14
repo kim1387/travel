@@ -5,6 +5,7 @@ import com.interpark.triple.global.domain.BaseEntity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Getter
@@ -26,12 +27,16 @@ public class City extends BaseEntity {
   @Column(name = "view", nullable = false)
   private Integer view;
 
+  @Column(name = "latest_view_at", nullable = false)
+  private LocalDateTime latestViewAt;
+
   @Builder
   public City(String name, String introContent) {
     this.name = name;
     this.introContent = introContent;
     this.view = 0;
-    updateActivated(true);
+    this.latestViewAt= LocalDateTime.now();
+    this.isActivated = true;
   }
 
   @Override
@@ -42,7 +47,8 @@ public class City extends BaseEntity {
     return Objects.equals(id, city.id)
         && Objects.equals(name, city.name)
         && Objects.equals(introContent, city.introContent)
-        && Objects.equals(view, city.view);
+        && Objects.equals(view, city.view)
+        && Objects.equals(latestViewAt, city.latestViewAt);
   }
 
   @Override
