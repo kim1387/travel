@@ -13,4 +13,7 @@ public interface TravelRepository extends JpaRepository<Travel, Long> {
       value =
           "select t from Travel t join fetch t.users join fetch t.city where t.id = :id and t.isActivated = true")
   Optional<Travel> findTravelWithCityAndUsersById(@Param("id") Long id);
+
+  @Query("select t from Travel t where t.id = :id and t.isActivated = true")
+  Optional<Travel> findTravelById(@Param("id") Long id);
 }

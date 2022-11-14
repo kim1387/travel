@@ -60,7 +60,7 @@ public class TravelService {
 
   public TravelInfo updateTravel(TravelUpdateRequest request) {
 
-    Travel foundTravel = findTravelWithCityAndUsersById(request);
+    Travel foundTravel = findTravelWithCityAndUsersById(request.getTravelId());
     City foundCityForUpdate = cityService.findCityById(request.getCityId());
 
     foundTravel.updateTravelInfo(request, foundCityForUpdate);
@@ -69,9 +69,25 @@ public class TravelService {
     return mapTravelEntityToInfo(savedTravel);
   }
 
-  public Travel findTravelWithCityAndUsersById(TravelUpdateRequest request) {
+  public Travel findTravelWithCityAndUsersById(Long id) {
     return travelRepository
-        .findTravelWithCityAndUsersById(request.getTravelId())
+        .findTravelWithCityAndUsersById(id)
         .orElseThrow(NotFoundTravelEntityException::new);
   }
+
+  public void deleteTravel(Long id) {
+    Travel foundTravel = findTravelById(id);
+    foundTravel.deleteTravel();
+  }
+
+  private Travel findTravelById(Long id) {
+    return travelRepository.findTravelById(id).orElseThrow(NotFoundTravelEntityException::new);
+  }
+
+  public TravelInfo findOneTravelById(Long id) {
+
+    Travel foundTravel = findTravelWithCityAndUsersById(id);
+    return mapTravelEntityToInfo(foundTravel);
+  }
+
 }

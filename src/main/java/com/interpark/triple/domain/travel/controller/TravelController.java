@@ -25,10 +25,22 @@ public class TravelController {
   }
 
   @PutMapping
-  public ResponseEntity<ResultResponse> updateTravel(TravelUpdateRequest request) {
+  public ResponseEntity<ResultResponse> deleteTravel(TravelUpdateRequest request) {
     TravelInfo updatedTravelInfo = travelService.updateTravel(request);
 
     return ResponseEntity.ok(
         ResultResponse.of(ResultCode.CREATE_TRAVEL_SUCCESS, updatedTravelInfo));
+  }
+
+  @DeleteMapping("/{id}")
+  public ResponseEntity<ResultResponse> deleteTravel(@PathVariable Long id) {
+    travelService.deleteTravel(id);
+    return ResponseEntity.ok(ResultResponse.of(ResultCode.CREATE_TRAVEL_SUCCESS, new Object()));
+  }
+
+  @GetMapping("/{id}")
+  public ResponseEntity<ResultResponse> findOneTravelById(@PathVariable Long id) {
+    TravelInfo foundTravelInfo = travelService.findOneTravelById(id);
+    return ResponseEntity.ok(ResultResponse.of(ResultCode.GET_ONE_TRAVEL_SUCCESS, foundTravelInfo));
   }
 }

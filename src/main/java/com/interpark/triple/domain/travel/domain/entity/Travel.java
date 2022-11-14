@@ -52,4 +52,8 @@ public class Travel extends BaseEntity {
     this.startAt = request.getTravelStartAt();
     this.endAt = request.getTravelEndAt();
   }
+
+  public void deleteTravel() {
+    this.isActivated = false;
+  }
 }

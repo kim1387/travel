@@ -15,11 +15,13 @@ public enum ResultCode {
   CREATE_CITY_SUCCESS("C001", "도시 등록 성공"),
   UPDATE_CITY_SUCCESS("C002", "도시 수정 성공"),
   DELETE_CITY_SUCCESS("C003", "도시 삭제 성공"),
-  GET_ONE_CITY_SUCCESS("C004", "단일 도시 조회 성공"),
+  GET_ONE_CITY_SUCCESS("C004", "도시 단일 조회 성공"),
 
   // travel
-  CREATE_TRAVEL_SUCCESS("T001", "여행지 등록 성공"),
-  UPDATE_TRAVEL_SUCCESS("T002", "여행지 수정 성공"),
+  CREATE_TRAVEL_SUCCESS("T001", "여행 등록 성공"),
+  UPDATE_TRAVEL_SUCCESS("T002", "여행 수정 성공"),
+  DELETE_TRAVEL_SUCCESS("T003", "여행 삭제 성공"),
+  GET_ONE_TRAVEL_SUCCESS("T003", "여행 단일 조회 성공"),
   ;
 
   private final String code;
