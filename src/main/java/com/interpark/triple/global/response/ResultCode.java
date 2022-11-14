@@ -16,6 +16,7 @@ public enum ResultCode {
   UPDATE_CITY_SUCCESS("C002", "도시 수정 성공"),
   DELETE_CITY_SUCCESS("C003", "도시 삭제 성공"),
   GET_ONE_CITY_SUCCESS("C004", "도시 단일 조회 성공"),
+  GET_USERS_CITY_SUCCESS("C005", "사용자별 도시 조회 성공"),
 
   // travel
   CREATE_TRAVEL_SUCCESS("T001", "여행 등록 성공"),
