@@ -18,6 +18,7 @@ public abstract class BaseEntity {
 
   @LastModifiedDate private LocalDateTime updatedDate;
 
+  @Getter
   @Column(name = "is_activated", nullable = false)
   protected boolean isActivated;
 
