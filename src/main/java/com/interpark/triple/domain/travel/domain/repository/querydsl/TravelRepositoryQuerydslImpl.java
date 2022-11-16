@@ -38,6 +38,7 @@ public class TravelRepositoryQuerydslImpl implements TravelRepositoryQuerydsl {
         .innerJoin(travel.users, users)
         .on(travel.users.id.eq(userId))
         .innerJoin(travel.city, city)
+        .on(travel.users.id.eq(userId))
         .orderBy(travel.startAt.desc())
         .limit(limit)
         .fetch();
