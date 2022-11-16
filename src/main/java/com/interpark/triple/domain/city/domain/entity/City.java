@@ -1,5 +1,6 @@
 package com.interpark.triple.domain.city.domain.entity;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.interpark.triple.domain.city.dto.CityUpdateRequest;
 import com.interpark.triple.domain.user.domain.entity.Users;
 import com.interpark.triple.global.domain.BaseEntity;
@@ -68,6 +69,11 @@ public class City extends BaseEntity {
   }
 
   public void deleteCity() {
-    updateActivated(false);
+    this.activeOff();
+  }
+
+  @VisibleForTesting
+  public void setCreatedAt(LocalDateTime localDateTime){
+    this.createdDate = localDateTime;
   }
 }

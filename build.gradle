@@ -36,6 +36,7 @@ dependencies {
     //querydsl 추가
     implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
     annotationProcessor "com.querydsl:querydsl-apt:${queryDslVersion}"
+    implementation("com.google.guava:guava:24.0-jre")
 
     implementation 'org.flywaydb:flyway-core'
     implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'

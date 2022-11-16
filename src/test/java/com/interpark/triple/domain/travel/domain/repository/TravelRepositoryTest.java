@@ -7,6 +7,7 @@ import com.interpark.triple.domain.travel.domain.entity.Travel;
 import com.interpark.triple.domain.user.domain.entity.Users;
 import com.interpark.triple.domain.user.domain.entity.UsersRole;
 import com.interpark.triple.domain.user.domain.repository.UsersRepository;
+import com.interpark.triple.global.config.JpaAuditingConfig;
 import com.interpark.triple.global.config.QuerydslConfig;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -23,7 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DataJpaTest
-@Import(QuerydslConfig.class)
+@Import({QuerydslConfig.class, JpaAuditingConfig.class})
 class TravelRepositoryTest {
 
   @Autowired private TravelRepository travelRepository;
@@ -111,7 +112,7 @@ class TravelRepositoryTest {
   }
 
   @Test
-  @DisplayName("여행이 예정된 도시 : 여행 시작일이 가까운 것부터")
+  @DisplayName("여행 시작일이 가까운 것부터 여행이 예정된 도시 조회")
   void findWillTravelOrderByStartAtDescTest() {
     // given
     List<Users> givenUserList = createGivenUserList();

@@ -11,10 +11,10 @@ import javax.persistence.MappedSuperclass;
 import java.time.LocalDateTime;
 
 @Getter
-@EntityListeners(value = {AuditingEntityListener.class})
 @MappedSuperclass
+@EntityListeners(AuditingEntityListener.class)
 public abstract class BaseEntity {
-  @CreatedDate private LocalDateTime createdDate;
+  @CreatedDate protected LocalDateTime createdDate;
 
   @LastModifiedDate private LocalDateTime updatedDate;
 
@@ -22,7 +22,7 @@ public abstract class BaseEntity {
   @Column(name = "is_activated", nullable = false)
   protected boolean isActivated;
 
-  public void updateActivated(boolean isActivated) {
-    this.isActivated = isActivated;
+  public void activeOff() {
+    this.isActivated = false;
   }
 }
