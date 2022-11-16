@@ -51,6 +51,19 @@ public class CityRepositoryQuerydslImpl implements CityRepositoryQuerydsl {
             .fetch();
   }
 
+  @Override
+  public List<CityInfo> findCityInfoById(Long userId, Integer limit) {
+    return queryFactory
+            .select(new QCityInfo(city.name, city.introContent, city.createdDate, city.updatedDate))
+            .from(city)
+            .where((city.isActivated.eq(true))
+                    .and((city.users.id.eq(userId))))
+            .innerJoin(city.users, users)
+            .on(city.users.id.eq(userId))
+            .limit(limit)
+            .fetch();
+  }
+
   private static BooleanExpression isCreatedAtToday() {
     return city.createdDate.after(
         Expressions.dateTimeTemplate(LocalDateTime.class, "{0}", now().minusDays(1)));

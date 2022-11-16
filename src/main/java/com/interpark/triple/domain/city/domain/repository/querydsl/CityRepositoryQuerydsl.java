@@ -10,4 +10,5 @@ public interface CityRepositoryQuerydsl {
 
   List<CityInfo> findCityInfoIfViewDuringSevenDaysOrderByRecentlyView(Long userId, Integer limit);
 
+  List<CityInfo> findCityInfoById(Long userId, Integer limit);
 }
