@@ -6,6 +6,7 @@ import com.interpark.triple.domain.city.dto.CityInfo;
 import com.interpark.triple.domain.city.dto.CityInfoList;
 import com.interpark.triple.domain.city.dto.CityRegisterRequest;
 import com.interpark.triple.domain.city.dto.CityUpdateRequest;
+import com.interpark.triple.domain.city.exception.CantDeleteCityIfTravelExistException;
 import com.interpark.triple.domain.city.exception.NotFoundCityEntityException;
 import com.interpark.triple.domain.travel.domain.repository.TravelRepository;
 import com.interpark.triple.domain.user.domain.entity.Users;
@@ -37,7 +38,10 @@ public class CityService {
   }
 
   public void deleteCity(Long id) {
-    City foundCity = cityRepository.findCityById(id).orElseThrow(NotFoundCityEntityException::new);
+    City foundCity = cityRepository.findCityWithTravelById(id).orElseThrow(NotFoundCityEntityException::new);
+    if (!foundCity.getTravelList().isEmpty()){
+      throw new CantDeleteCityIfTravelExistException();
+    }
     foundCity.deleteCity();
   }
 

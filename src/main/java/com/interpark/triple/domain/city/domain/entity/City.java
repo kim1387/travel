@@ -2,6 +2,7 @@ package com.interpark.triple.domain.city.domain.entity;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.interpark.triple.domain.city.dto.CityUpdateRequest;
+import com.interpark.triple.domain.travel.domain.entity.Travel;
 import com.interpark.triple.domain.user.domain.entity.Users;
 import com.interpark.triple.global.domain.BaseEntity;
 import lombok.*;
@@ -9,9 +10,11 @@ import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
-import static java.time.LocalDateTime.*;
+import static java.time.LocalDateTime.now;
 
 @Getter
 @Entity
@@ -39,6 +42,9 @@ public class City extends BaseEntity {
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "users_id", nullable = false)
   private Users users;
+
+  @OneToMany(mappedBy = "travel")
+  private List<Travel> travelList = new ArrayList<>();
 
   @Builder
   public City(String name, String introContent, Users users) {
@@ -84,5 +90,4 @@ public class City extends BaseEntity {
   public void plusViewOne() {
     this.view = this.view + 1;
   }
-
 }
