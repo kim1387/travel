@@ -86,7 +86,7 @@ jacocoTestCoverageVerification {
                 value = 'COVEREDRATIO'
                 minimum = 0.00
             }
-            excludes = ["*.dto.*","*.dto", "*.TripleApplication*", "*.config.*", "*.exceptions.*"]
+            excludes = ["*.dto.*","*.global.*","*.dto", "*.TripleApplication*", "*.config.*", "*.exceptions.*"]
         }
     }
 }
