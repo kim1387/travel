@@ -1,0 +1,137 @@
+= 트리플 여행지(도시) 관리 API
+:author: 김기현 (kim1387)
+:doctype: book
+:icontype: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 2`
+:sectlinks:
+
+[[triple-city-api]]
+=== City 등록
+
+==== Request
+
+include::{snippets}/city/create/http-request.adoc[]
+
+include::{snippets}/city/create//request-fields.adoc[]
+
+==== Response
+
+include::{snippets}/city/create/http-request.adoc[]
+
+include::{snippets}/city/create/response-fields.adoc[]
+
+=== City 수정
+
+==== Request
+
+include::{snippets}/city/update/http-request.adoc[]
+
+include::{snippets}/city/update/request-fields.adoc[]
+
+==== Response
+
+include::{snippets}/city/update/http-request.adoc[]
+
+include::{snippets}/city/update/response-fields.adoc[]
+
+=== City 삭제
+
+==== Request
+
+include::{snippets}/city/delete/http-request.adoc[]
+
+include::{snippets}/city/delete/path-parameters.adoc[]
+
+==== Response
+
+include::{snippets}/city/delete/http-request.adoc[]
+
+include::{snippets}/city/delete/response-fields.adoc[]
+
+=== City 단일 조회
+
+==== Request
+
+include::{snippets}/city/get/one/http-request.adoc[]
+
+include::{snippets}/city/get/one/path-parameters.adoc[]
+
+==== Response
+
+include::{snippets}/city/get/one/http-request.adoc[]
+
+include::{snippets}/city/get/one/response-fields.adoc[]
+
+=== City 사용자 별 조회
+
+==== Request
+
+include::{snippets}/city/users/get/http-request.adoc[]
+
+include::{snippets}/city/users/get/path-parameters.adoc[]
+
+==== Response
+
+include::{snippets}/city/users/get/http-request.adoc[]
+
+include::{snippets}/city/users/get/response-fields.adoc[]
+
+[[triple-city-api]]
+
+=== Travel 등록
+
+==== Request
+
+include::{snippets}/travel/create/http-request.adoc[]
+
+include::{snippets}/travel/create//request-fields.adoc[]
+
+==== Response
+
+include::{snippets}/travel/create/http-request.adoc[]
+
+include::{snippets}/travel/create/response-fields.adoc[]
+
+=== Travel 수정
+
+==== Request
+
+include::{snippets}/travel/update/http-request.adoc[]
+
+include::{snippets}/travel/update/request-fields.adoc[]
+
+==== Response
+
+include::{snippets}/travel/update/http-request.adoc[]
+
+include::{snippets}/travel/update/response-fields.adoc[]
+
+=== Travel 삭제
+
+==== Request
+
+include::{snippets}/travel/delete/http-request.adoc[]
+
+include::{snippets}/travel/delete/path-parameters.adoc[]
+
+==== Response
+
+include::{snippets}/travel/delete/http-request.adoc[]
+
+include::{snippets}/travel/delete/response-fields.adoc[]
+
+=== Travel 단일 조회
+
+==== Request
+
+include::{snippets}/travel/get/one/http-request.adoc[]
+
+include::{snippets}/travel/get/one/path-parameters.adoc[]
+
+==== Response
+
+include::{snippets}/travel/get/one/http-request.adoc[]
+
+include::{snippets}/travel/get/one/response-fields.adoc[]
