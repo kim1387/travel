@@ -15,6 +15,6 @@ public interface CityRepository extends JpaRepository<City, Long>, CityRepositor
 
   @Query(
       value =
-          "select c from City c join fetch Travel t where c.id = :id and c.isActivated = true and t.isActivated = true")
+          "select c from City c join fetch c.travelList t where c.id = :id and c.isActivated = true and t.isActivated = true")
   Optional<City> findCityWithTravelById(@Param("id") Long id);
 }
