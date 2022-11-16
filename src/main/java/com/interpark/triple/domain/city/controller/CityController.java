@@ -1,6 +1,7 @@
 package com.interpark.triple.domain.city.controller;
 
 import com.interpark.triple.domain.city.dto.CityInfo;
+import com.interpark.triple.domain.city.dto.CityInfoList;
 import com.interpark.triple.domain.city.dto.CityRegisterRequest;
 import com.interpark.triple.domain.city.dto.CityUpdateRequest;
 import com.interpark.triple.domain.city.service.CityService;
@@ -41,5 +42,11 @@ public class CityController {
   public ResponseEntity<ResultResponse> findCityById(@PathVariable Long id) {
     CityInfo cityInfo = cityService.findCityInfoById(id);
     return ResponseEntity.ok(ResultResponse.of(ResultCode.GET_ONE_CITY_SUCCESS, cityInfo));
+  }
+
+  @GetMapping("/users/{userId}")
+  public ResponseEntity<ResultResponse> findCityByUserId(@PathVariable Long userId) {
+    CityInfoList cityInfoList = cityService.findCityInfoByUserId(userId);
+    return ResponseEntity.ok(ResultResponse.of(ResultCode.GET_USERS_CITY_SUCCESS, cityInfoList));
   }
 }

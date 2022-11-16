@@ -1,6 +1,7 @@
 package com.interpark.triple.domain.city.domain.entity;
 
 import com.interpark.triple.domain.city.dto.CityUpdateRequest;
+import com.interpark.triple.domain.user.domain.entity.Users;
 import com.interpark.triple.global.domain.BaseEntity;
 import lombok.*;
 
@@ -30,10 +31,15 @@ public class City extends BaseEntity {
   @Column(name = "latest_view_at", nullable = false)
   private LocalDateTime latestViewAt;
 
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "users_id", nullable = false)
+  private Users users;
+
   @Builder
-  public City(String name, String introContent) {
+  public City(String name, String introContent, Users users) {
     this.name = name;
     this.introContent = introContent;
+    this.users = users;
     this.view = 0;
     this.latestViewAt= LocalDateTime.now();
     this.isActivated = true;

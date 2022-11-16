@@ -7,6 +7,8 @@ import lombok.*;
 @RequiredArgsConstructor
 public class CityRegisterRequest {
 
+  private final Long userId;
+
   private final String cityName;
 
   private final String cityIntroContent;

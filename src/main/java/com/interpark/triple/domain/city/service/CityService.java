@@ -3,9 +3,14 @@ package com.interpark.triple.domain.city.service;
 import com.interpark.triple.domain.city.domain.entity.City;
 import com.interpark.triple.domain.city.domain.repository.CityRepository;
 import com.interpark.triple.domain.city.dto.CityInfo;
+import com.interpark.triple.domain.city.dto.CityInfoList;
 import com.interpark.triple.domain.city.dto.CityRegisterRequest;
 import com.interpark.triple.domain.city.dto.CityUpdateRequest;
 import com.interpark.triple.domain.city.exception.NotFoundCityEntityException;
+import com.interpark.triple.domain.travel.domain.repository.TravelRepository;
+import com.interpark.triple.domain.user.domain.entity.Users;
+import com.interpark.triple.domain.user.domain.repository.UsersRepository;
+import com.interpark.triple.domain.user.exception.NotFoundUserEntityException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +18,9 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class CityService {
   private final CityRepository cityRepository;
+
+  private final TravelRepository travelRepository;
+  private final UsersRepository usersRepository;
 
   public CityInfo registerCity(CityRegisterRequest cityRegisterRequest) {
     City newCity = convertCityFromRequest(cityRegisterRequest);
@@ -42,7 +50,6 @@ public class CityService {
     return cityRepository.findCityById(id).orElseThrow(NotFoundCityEntityException::new);
   }
 
-
   private CityInfo mapCityEntityToCityInfoResponse(City savedCity) {
     return CityInfo.builder()
         .name(savedCity.getName())
@@ -53,9 +60,22 @@ public class CityService {
   }
 
   private City convertCityFromRequest(CityRegisterRequest cityRegisterRequest) {
+    Users foundUser = getUserById(cityRegisterRequest.getUserId());
+
     return City.builder()
         .name(cityRegisterRequest.getCityName())
         .introContent(cityRegisterRequest.getCityIntroContent())
+        .users(foundUser)
         .build();
+  }
+
+  private Users getUserById(Long usersId) {
+    return usersRepository.findUserById(usersId).orElseThrow(NotFoundUserEntityException::new);
+  }
+
+  public CityInfoList findCityInfoByUserId(Long userId) {
+    CityInfoList cityInfoList = new CityInfoList();
+
+    return null;
   }
 }

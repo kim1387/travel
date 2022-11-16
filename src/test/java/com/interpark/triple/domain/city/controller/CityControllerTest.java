@@ -65,7 +65,7 @@ class CityControllerTest {
             .updatedAt(LocalDateTime.now())
             .build();
     CityRegisterRequest cityRegisterRequest =
-        CityRegisterRequest.builder().cityName("한국").cityIntroContent("간단한 한국 소개").build();
+        CityRegisterRequest.builder().userId(1L).cityName("한국").cityIntroContent("간단한 한국 소개").build();
     // when
     when(cityService.registerCity(any())).thenReturn(cityInfo);
 
