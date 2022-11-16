@@ -2,7 +2,6 @@ package com.interpark.triple.domain.city.domain.repository;
 
 import com.interpark.triple.domain.city.domain.entity.City;
 import com.interpark.triple.domain.city.dto.CityInfo;
-import com.interpark.triple.domain.city.exception.NotFoundCityEntityException;
 import com.interpark.triple.domain.user.domain.entity.Users;
 import com.interpark.triple.domain.user.domain.repository.UsersRepository;
 import com.interpark.triple.global.config.JpaAuditingConfig;
@@ -40,8 +39,9 @@ class CityRepositoryTest {
     City actualCity = cityRepository.save(expectedCity);
 
     // then
-    assertEquals(expectedCity.getName(), actualCity.getName());
-    assertEquals(expectedCity.getIntroContent(), actualCity.getIntroContent());
+    assertAll(
+        () -> assertEquals(expectedCity.getName(), actualCity.getName()),
+        () -> assertEquals(expectedCity.getIntroContent(), actualCity.getIntroContent()));
   }
 
   @Test
@@ -54,15 +54,8 @@ class CityRepositoryTest {
 
     // when
     List<CityInfo> actualCityInfoList =
-        cityRepository.findCityInfoRegisterTodayOrderByCreatedAt(1L, 10);
+        cityRepository.findCityInfoRegisterTodayOrderByCreatedAt(givenUser.getId(), 10);
 
-    City ac = cityRepository.findCityById(1L).orElseThrow(NotFoundCityEntityException::new);
-    City ac1 = cityRepository.findCityById(2L).orElseThrow(NotFoundCityEntityException::new);
-    City ac2 = cityRepository.findCityById(3L).orElseThrow(NotFoundCityEntityException::new);
-
-    for (CityInfo city : actualCityInfoList) {
-      System.out.println(city.getName() + city.getCreatedAt());
-    }
     // then
     assertAll(
         () -> assertEquals(3, actualCityInfoList.size()),
@@ -93,7 +86,7 @@ class CityRepositoryTest {
     createGivenCityNoView(givenUser);
     // when
     List<CityInfo> actualCityInfoList =
-        cityRepository.findCityInfoIfViewDuringSevenDaysOrderByRecentlyView(1L, 10);
+        cityRepository.findCityInfoIfViewDuringSevenDaysOrderByRecentlyView(givenUser.getId(), 10);
 
     // then
     assertAll(
@@ -129,9 +122,9 @@ class CityRepositoryTest {
     // given
     Users givenUser = usersRepository.save(Users.builder().name("기현").role(ROLE_USER).build());
     List<City> givenCityList = createGivenCityListWithFor(givenUser);
-
+    System.out.println(givenUser.getId());
     // when
-    List<CityInfo> actualCityInfoById = cityRepository.findCityInfoById(1L, 2);
+    List<CityInfo> actualCityInfoById = cityRepository.findCityInfoById(givenUser.getId(), 2);
 
     // then
     assertAll(
