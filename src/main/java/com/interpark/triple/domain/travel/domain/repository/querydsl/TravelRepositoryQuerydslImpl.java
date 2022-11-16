@@ -24,7 +24,12 @@ public class TravelRepositoryQuerydslImpl implements TravelRepositoryQuerydsl {
   public List<CityInfo> findCurrentTravelOrderByStartAt(Long userId, Integer limit) {
 
     return queryFactory
-        .select(new QCityInfo(travel.city.name, travel.city.introContent, travel.city.createdDate, travel.city.updatedDate))
+        .select(
+            new QCityInfo(
+                travel.city.name,
+                travel.city.introContent,
+                travel.city.createdDate,
+                travel.city.updatedDate))
         .from(travel)
         .where(
             (travel.isActivated.eq(true))
