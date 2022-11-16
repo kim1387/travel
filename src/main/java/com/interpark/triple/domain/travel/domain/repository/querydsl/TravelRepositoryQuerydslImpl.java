@@ -48,7 +48,7 @@ public class TravelRepositoryQuerydslImpl implements TravelRepositoryQuerydsl {
                 travel.city.name,
                 travel.city.introContent,
                 travel.city.createdDate,
-                travel.updatedDate))
+                travel.city.updatedDate))
         .from(travel)
         .where(
             (travel.isActivated.eq(true))
