@@ -123,6 +123,31 @@ class CityRepositoryTest {
     cityRepository.save(cityCreatedTwoDaysAgo);
   }
 
+  @Test
+  @DisplayName("id로 cityInfo 조회하는 함수 구현")
+  void findCityInfoByIdWithLimitTest() {
+    // given
+    Users givenUser = usersRepository.save(Users.builder().name("기현").role(ROLE_USER).build());
+    List<City> givenCityList = createGivenCityListWithFor(givenUser);
+
+    // when
+    List<CityInfo> actualCityInfoById = cityRepository.findCityInfoById(1L, 2);
+
+    // then
+    assertAll(
+        () -> assertEquals(2, actualCityInfoById.size()),
+        () -> assertEquals(givenCityList.get(0).getName(), actualCityInfoById.get(0).getName()),
+        () ->
+            assertEquals(
+                givenCityList.get(0).getIntroContent(),
+                actualCityInfoById.get(0).getIntroContent()),
+        () -> assertEquals(givenCityList.get(1).getName(), actualCityInfoById.get(1).getName()),
+        () ->
+            assertEquals(
+                givenCityList.get(1).getIntroContent(),
+                actualCityInfoById.get(1).getIntroContent()));
+  }
+
   private List<City> createGivenCityListWithFor(Users givenUser) {
     List<City> cityList =
         Arrays.asList(
