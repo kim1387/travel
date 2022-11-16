@@ -16,6 +16,6 @@ spring:
     password: "0000"
 
   flyway:
-    enabled: false
+    enabled: true
     baseline-on-migrate: true
 
