@@ -6,6 +6,7 @@ import com.interpark.triple.domain.city.controller.document.CityRestDocument;
 import com.interpark.triple.domain.city.dto.CityInfo;
 import com.interpark.triple.domain.city.dto.CityInfoList;
 import com.interpark.triple.domain.city.dto.CityRegisterRequest;
+import com.interpark.triple.domain.city.dto.CityUpdateRequest;
 import com.interpark.triple.domain.city.service.CityService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -85,7 +86,7 @@ class CityControllerTest {
                 .content(objectMapper.writeValueAsString(cityRegisterRequest)))
         .andExpect(status().isOk())
         .andDo(print())
-        .andDo(CityRestDocument.getCityInfoDocument());
+        .andDo(CityRestDocument.getCreateCityInfoDocument());
   }
 
   @Test
@@ -153,11 +154,38 @@ class CityControllerTest {
         .andDo(CityRestDocument.getCityInfoListByUserIdDocument());
   }
 
+  @Test
+  @DisplayName("city 수정 api")
+  void updateCityByUser() throws Exception {
+    // given
+    CityInfo cityInfo =
+        CityInfo.builder()
+            .name("한국")
+            .introContent("간단한 한국 소개")
+            .createdAt(now())
+            .updatedAt(now())
+            .build();
+    CityUpdateRequest cityUpdateRequest =
+        CityUpdateRequest.builder().cityId(1L).cityName("한국").cityIntroContent("간단한 한국 소개").build();
+    // when
+    when(cityService.updateCityInfo(any())).thenReturn(cityInfo);
+
+    // then
+    mockMvc
+        .perform(
+            RestDocumentationRequestBuilders.put("/api/v1/city")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(cityUpdateRequest)))
+        .andExpect(status().isOk())
+        .andDo(print())
+        .andDo(CityRestDocument.getUpdateCityInfoByIdDocument());
+  }
+
   private static List<CityInfo> createCityInfos() {
-    List<String> cityList = List.of("서울", "수원","판교", "서울", "수원","판교", "인천", "안양", "강릉","원주");
+    List<String> cityList = List.of("서울", "수원", "판교", "서울", "수원", "판교", "인천", "안양", "강릉", "원주");
     List<CityInfo> newCityList = new ArrayList<CityInfo>(10);
     for (String city : cityList) {
-      newCityList.add(new CityInfo(city,"여기는 "+city, now(), now()));
+      newCityList.add(new CityInfo(city, "여기는 " + city, now(), now()));
     }
     return newCityList;
   }
