@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RequestMapping("/api/v1/travel")
 @RestController
 @RequiredArgsConstructor
@@ -18,14 +20,14 @@ public class TravelController {
   private final TravelService travelService;
 
   @PostMapping
-  public ResponseEntity<ResultResponse> createTravel(TravelCreateRequest request) {
+  public ResponseEntity<ResultResponse> createTravel(@Valid TravelCreateRequest request) {
     TravelInfo travelInfo = travelService.createTravel(request);
 
     return ResponseEntity.ok(ResultResponse.of(ResultCode.CREATE_TRAVEL_SUCCESS, travelInfo));
   }
 
   @PutMapping
-  public ResponseEntity<ResultResponse> updateTravel(TravelUpdateRequest request) {
+  public ResponseEntity<ResultResponse> updateTravel(@Valid TravelUpdateRequest request) {
     TravelInfo updatedTravelInfo = travelService.updateTravel(request);
 
     return ResponseEntity.ok(
