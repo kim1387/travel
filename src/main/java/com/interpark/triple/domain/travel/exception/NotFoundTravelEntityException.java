@@ -5,6 +5,6 @@ import com.interpark.triple.global.response.ErrorCode;
 
 public class NotFoundTravelEntityException extends BusinessException {
     public NotFoundTravelEntityException() {
-        super(ErrorCode.USER_NOT_FOUND);
+        super(ErrorCode.TRAVEL_NOT_FOUND);
     }
 }
