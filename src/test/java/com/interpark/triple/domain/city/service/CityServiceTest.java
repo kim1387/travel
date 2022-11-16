@@ -57,7 +57,7 @@ class CityServiceTest {
 
     // when
     when(cityRepository.save(any())).thenReturn(expectReturnCity);
-    when(usersRepository.findUserById(any())).thenReturn(Optional.of(givenUser));
+    when(usersRepository.findUsersById(any())).thenReturn(Optional.of(givenUser));
     CityInfo actualResponse = cityService.registerCity(givenRequest);
 
     // then

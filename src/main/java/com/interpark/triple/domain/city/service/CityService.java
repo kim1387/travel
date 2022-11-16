@@ -85,7 +85,7 @@ public class CityService {
   }
 
   private Users getUserById(Long usersId) {
-    return usersRepository.findUserById(usersId).orElseThrow(NotFoundUserEntityException::new);
+    return usersRepository.findUsersById(usersId).orElseThrow(NotFoundUserEntityException::new);
   }
 
   public CityInfoList findCityInfoByUserIdWithConditions(Long userId) {
