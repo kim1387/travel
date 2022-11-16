@@ -43,7 +43,7 @@ public class City extends BaseEntity {
   @JoinColumn(name = "users_id", nullable = false)
   private Users users;
 
-  @OneToMany(mappedBy = "travel")
+  @OneToMany(mappedBy = "city")
   private List<Travel> travelList = new ArrayList<>();
 
   @Builder
