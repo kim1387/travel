@@ -1,6 +1,7 @@
 package com.interpark.triple.domain.city.controller;
 
 import com.interpark.triple.domain.city.dto.CityInfo;
+import com.interpark.triple.domain.city.dto.CityInfoList;
 import com.interpark.triple.domain.city.dto.CityRegisterRequest;
 import com.interpark.triple.domain.city.dto.CityUpdateRequest;
 import com.interpark.triple.domain.city.service.CityService;
@@ -34,12 +35,18 @@ public class CityController {
   @DeleteMapping("/{id}")
   public ResponseEntity<ResultResponse> deleteCity(@PathVariable Long id) {
     cityService.deleteCity(id);
-    return ResponseEntity.ok(ResultResponse.of(ResultCode.DELETE_CITY_SUCCESS, new Object()));
+    return ResponseEntity.ok(ResultResponse.of(ResultCode.DELETE_CITY_SUCCESS, ""));
   }
 
   @GetMapping("/{id}")
   public ResponseEntity<ResultResponse> findCityById(@PathVariable Long id) {
     CityInfo cityInfo = cityService.findCityInfoById(id);
     return ResponseEntity.ok(ResultResponse.of(ResultCode.GET_ONE_CITY_SUCCESS, cityInfo));
+  }
+
+  @GetMapping("/users/{userId}")
+  public ResponseEntity<ResultResponse> findCityByUserId(@PathVariable Long userId) {
+    CityInfoList cityInfoList = cityService.findCityInfoByUserIdWithConditions(userId);
+    return ResponseEntity.ok(ResultResponse.of(ResultCode.GET_USERS_CITY_SUCCESS, cityInfoList));
   }
 }

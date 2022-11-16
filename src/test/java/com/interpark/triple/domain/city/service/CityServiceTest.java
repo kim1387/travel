@@ -4,6 +4,8 @@ import com.interpark.triple.domain.city.domain.entity.City;
 import com.interpark.triple.domain.city.domain.repository.CityRepository;
 import com.interpark.triple.domain.city.dto.CityInfo;
 import com.interpark.triple.domain.city.dto.CityRegisterRequest;
+import com.interpark.triple.domain.user.domain.entity.Users;
+import com.interpark.triple.domain.user.domain.repository.UsersRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -13,8 +15,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Optional;
 import java.util.stream.Stream;
 
+import static com.interpark.triple.domain.user.domain.entity.UsersRole.ROLE_USER;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -26,14 +30,18 @@ class CityServiceTest {
   @InjectMocks private CityService cityService;
 
   @Mock private CityRepository cityRepository;
+  @Mock private UsersRepository usersRepository;
 
-  @DisplayName("city를 등록하는 메서드")
+  @DisplayName("city 를 등록하는 메서드")
   @ParameterizedTest(name = "{index} {displayName} input:{0} answer:{1} ")
   @MethodSource("giveCityNameAndIntroContent")
   void registerCityTest(String givenCityName, String givenCityIntroContent) {
     // given
+    Users givenUser = Users.builder().name("기현").role(ROLE_USER).build();
+
     CityRegisterRequest givenRequest =
         CityRegisterRequest.builder()
+            .userId(1L)
             .cityName(givenCityName)
             .cityIntroContent(givenCityIntroContent)
             .build();
@@ -41,10 +49,15 @@ class CityServiceTest {
         CityInfo.builder().name(givenCityName).introContent(givenCityIntroContent).build();
 
     City expectReturnCity =
-        City.builder().name(givenCityName).introContent(givenCityIntroContent).build();
+        City.builder()
+            .name(givenCityName)
+            .introContent(givenCityIntroContent)
+            .users(givenUser)
+            .build();
 
     // when
     when(cityRepository.save(any())).thenReturn(expectReturnCity);
+    when(usersRepository.findUserById(any())).thenReturn(Optional.of(givenUser));
     CityInfo actualResponse = cityService.registerCity(givenRequest);
 
     // then

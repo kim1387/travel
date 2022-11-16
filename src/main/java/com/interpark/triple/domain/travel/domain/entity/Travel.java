@@ -5,6 +5,7 @@ import com.interpark.triple.domain.travel.dto.TravelUpdateRequest;
 import com.interpark.triple.domain.user.domain.entity.Users;
 import com.interpark.triple.global.domain.BaseEntity;
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -29,9 +30,11 @@ public class Travel extends BaseEntity {
   private City city;
 
   @Column(name = "start_at", nullable = false)
+  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private LocalDateTime startAt;
 
   @Column(name = "end_at", nullable = false)
+  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private LocalDateTime endAt;
 
   @Builder

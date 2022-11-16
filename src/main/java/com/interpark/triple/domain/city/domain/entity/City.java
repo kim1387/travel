@@ -1,11 +1,20 @@
 package com.interpark.triple.domain.city.domain.entity;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.interpark.triple.domain.city.dto.CityUpdateRequest;
+import com.interpark.triple.domain.travel.domain.entity.Travel;
+import com.interpark.triple.domain.user.domain.entity.Users;
 import com.interpark.triple.global.domain.BaseEntity;
 import lombok.*;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+
+import static java.time.LocalDateTime.now;
 
 @Getter
 @Entity
@@ -26,12 +35,25 @@ public class City extends BaseEntity {
   @Column(name = "view", nullable = false)
   private Integer view;
 
+  @LastModifiedDate
+  @Column(name = "latest_view_at", nullable = false)
+  private LocalDateTime latestViewAt;
+
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "users_id", nullable = false)
+  private Users users;
+
+  @OneToMany(mappedBy = "city")
+  private List<Travel> travelList = new ArrayList<>();
+
   @Builder
-  public City(String name, String introContent) {
+  public City(String name, String introContent, Users users) {
     this.name = name;
     this.introContent = introContent;
+    this.users = users;
     this.view = 0;
-    updateActivated(true);
+    this.latestViewAt = now();
+    this.isActivated = true;
   }
 
   @Override
@@ -51,11 +73,20 @@ public class City extends BaseEntity {
   }
 
   public void updateCityInfo(CityUpdateRequest cityUpdateRequest) {
-      this.name = cityUpdateRequest.getCityName();
-      this.introContent = cityUpdateRequest.getCityIntroContent();
+    this.name = cityUpdateRequest.getCityName();
+    this.introContent = cityUpdateRequest.getCityIntroContent();
   }
 
   public void deleteCity() {
-    updateActivated(false);
+    this.activeOff();
+  }
+
+  @VisibleForTesting
+  public void setCreatedAt(LocalDateTime localDateTime) {
+    this.createdDate = localDateTime;
+  }
+
+  public void plusViewOne() {
+    this.view = this.view + 1;
   }
 }

@@ -1,23 +1,49 @@
 package com.interpark.triple.domain.travel.dto;
 
-import lombok.AllArgsConstructor;
+import com.querydsl.core.annotations.QueryProjection;
 import lombok.Builder;
 import lombok.Getter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
-@Builder
 @Getter
-@AllArgsConstructor
 public class TravelInfo {
 
-  private String cityName;
+  private final String cityName;
 
-  private String userName;
+  private final String userName;
 
-  private LocalDateTime startTravelAt;
+  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+  private final LocalDateTime startTravelAt;
 
-  private LocalDateTime endTravelAt;
+  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+  private final LocalDateTime endTravelAt;
 
-  private boolean isCanceled;
+  @Builder
+  @QueryProjection
+  public TravelInfo(
+      String cityName, String userName, LocalDateTime startTravelAt, LocalDateTime endTravelAt) {
+    this.cityName = cityName;
+    this.userName = userName;
+    this.startTravelAt = startTravelAt;
+    this.endTravelAt = endTravelAt;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    TravelInfo that = (TravelInfo) o;
+    return Objects.equals(cityName, that.cityName)
+        && Objects.equals(userName, that.userName)
+        && Objects.equals(startTravelAt.getSecond(), that.startTravelAt.getSecond())
+        && Objects.equals(endTravelAt.getSecond(), that.endTravelAt.getSecond());
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(cityName, userName, startTravelAt.getSecond(), endTravelAt.getSecond());
+  }
 }

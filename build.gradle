@@ -4,6 +4,8 @@ plugins {
     id 'java'
     id "org.asciidoctor.jvm.convert" version "3.3.2"
     id 'jacoco'
+    id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
+
 }
 
 group = 'com.interpark'
@@ -23,12 +25,18 @@ repositories {
 
 ext {
     set('snippetsDir', file("build/generated-snippets"))
+    set('springCloudVersion', "Hoxton.SR12")
+    queryDslVersion = "5.0.0"
 }
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
+    //querydsl 추가
+    implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
+    annotationProcessor "com.querydsl:querydsl-apt:${queryDslVersion}"
+    implementation("com.google.guava:guava:24.0-jre")
 
     implementation 'org.flywaydb:flyway-core'
     implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
@@ -78,7 +86,24 @@ jacocoTestCoverageVerification {
                 value = 'COVEREDRATIO'
                 minimum = 0.00
             }
-            excludes = ["*.dto.*", "*.TripleApplication*", "*.config.*", "*.exceptions.*"]
+            excludes = ["*.dto.*","*.global.*","*.dto", "*.TripleApplication*", "*.config.*", "*.exceptions.*"]
         }
     }
 }
+
+//querydsl 추가 시작
+def querydslDir = "$buildDir/generated/querydsl"
+querydsl {
+    jpa = true
+    querydslSourcesDir = querydslDir
+}
+sourceSets {
+    main.java.srcDir querydslDir
+}
+configurations {
+    querydsl.extendsFrom compileClasspath
+}
+compileQuerydsl {
+    options.annotationProcessorPath = configurations.querydsl
+}
+//querydsl 추가 끝
