@@ -83,7 +83,7 @@ class TravelControllerTest {
                 .content(objectMapper.writeValueAsString(createRequest)))
         .andExpect(status().isOk())
         .andDo(print())
-        .andDo(TravelRestDocument.getTravelInfoDocument());
+        .andDo(TravelRestDocument.getCreateTravelInfoDocument());
   }
 
   @Test
@@ -97,7 +97,7 @@ class TravelControllerTest {
     // then
     mockMvc
         .perform(
-            RestDocumentationRequestBuilders.delete("/api/v1/travel/{id}",1L)
+            RestDocumentationRequestBuilders.delete("/api/v1/travel/{id}", 1L)
                 .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andDo(print())
@@ -116,7 +116,8 @@ class TravelControllerTest {
             .endTravelAt(now().plusDays(2))
             .build();
     TravelUpdateRequest updateRequest =
-            TravelUpdateRequest.builder()
+        TravelUpdateRequest.builder()
+            .travelId(1L)
             .userId(1L)
             .cityId(1L)
             .travelStartAt(now())
@@ -133,7 +134,7 @@ class TravelControllerTest {
                 .content(objectMapper.writeValueAsString(updateRequest)))
         .andExpect(status().isOk())
         .andDo(print())
-        .andDo(TravelRestDocument.getTravelInfoDocument());
+        .andDo(TravelRestDocument.getUpdateTravelInfoDocument());
   }
 
   @Test
