@@ -15,6 +15,9 @@ import com.interpark.triple.domain.user.exception.NotFoundUserEntityException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.LinkedHashSet;
+import java.util.Set;
+
 @Service
 @RequiredArgsConstructor
 public class CityService {
@@ -38,8 +41,9 @@ public class CityService {
   }
 
   public void deleteCity(Long id) {
-    City foundCity = cityRepository.findCityWithTravelById(id).orElseThrow(NotFoundCityEntityException::new);
-    if (!foundCity.getTravelList().isEmpty()){
+    City foundCity =
+        cityRepository.findCityWithTravelById(id).orElseThrow(NotFoundCityEntityException::new);
+    if (!foundCity.getTravelList().isEmpty()) {
       throw new CantDeleteCityIfTravelExistException();
     }
     foundCity.deleteCity();
@@ -81,7 +85,11 @@ public class CityService {
 
   public CityInfoList findCityInfoByUserId(Long userId) {
     CityInfoList cityInfoList = new CityInfoList();
+    Set<CityInfo> secondCityInfoHashSet = new LinkedHashSet<>();
 
+    //    List<TravelInfo> travelInfosCurrentTraveling =
+    // travelRepository.findCurrentTravelOrderByStartAt(userId);
+    //    cityInfoList.addAllCityInfo(travelInfosCurrentTraveling);
     return null;
   }
 }

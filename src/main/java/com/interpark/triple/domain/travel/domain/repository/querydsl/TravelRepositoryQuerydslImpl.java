@@ -23,7 +23,7 @@ public class TravelRepositoryQuerydslImpl implements TravelRepositoryQuerydsl {
   private final JPAQueryFactory queryFactory;
 
   @Override
-  public List<TravelInfo> findCurrentTravelOrderByStartAt(Long userId) {
+  public List<TravelInfo> findCurrentTravelOrderByStartAt(Long userId, Integer limit) {
 
     return queryFactory
         .select(new QTravelInfo(travel.city.name, travel.users.name, travel.startAt, travel.endAt))
@@ -36,7 +36,7 @@ public class TravelRepositoryQuerydslImpl implements TravelRepositoryQuerydsl {
         .on(travel.users.id.eq(userId))
         .innerJoin(travel.city, city)
         .orderBy(travel.startAt.desc())
-        .limit(10)
+        .limit(limit)
         .fetch();
   }
 
@@ -63,9 +63,10 @@ public class TravelRepositoryQuerydslImpl implements TravelRepositoryQuerydsl {
   }
 
   private static BooleanExpression isTodayBetweenStartAtAndEndAt() {
-    return travel.startAt.between(
-        Expressions.dateTimeTemplate(LocalDateTime.class, "{0}", now()),
-        Expressions.dateTimeTemplate(LocalDateTime.class, "{0}", travel.endAt));
+    return Expressions.dateTimeTemplate(LocalDateTime.class, "{0}", now())
+        .between(
+            Expressions.dateTimeTemplate(LocalDateTime.class, "{0}", travel.startAt),
+            Expressions.dateTimeTemplate(LocalDateTime.class, "{0}", travel.endAt));
   }
 
   private static BooleanExpression isWillTravelStartAt() {

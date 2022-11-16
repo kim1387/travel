@@ -8,9 +8,7 @@ import java.util.List;
 
 public interface TravelRepositoryQuerydsl {
 
-  List<TravelInfo> findCurrentTravelOrderByStartAt(@Param("id") Long id);
-
+  List<TravelInfo> findCurrentTravelOrderByStartAt(@Param("id") Long id, Integer limit);
 
   List<CityInfo> findWillTravelOrderByStartAtAsc(Long userId, Integer limit);
-
 }
