@@ -87,10 +87,44 @@ class TravelRepositoryTest {
   @DisplayName("travel Id로 travel 조회하기")
   void findTravelByIdTest() {
     // given
+    Users givenUser = Users.builder().name("김기현").role(UsersRole.ROLE_USER).build();
+    usersRepository.save(givenUser);
+
+    List<City> expectedCityList =
+            cityRepository.saveAll(
+                    List.of(
+                            City.builder().name("서울").introContent("여기는 서울!").users(givenUser).build(),
+                            City.builder().name("수원").introContent("여기는 수원!").users(givenUser).build()));
+    currentDateTime = now();
+    List<Travel> expectedTravelList = travelRepository.saveAll(
+            List.of(
+                    Travel.builder()
+                            .users(givenUser)
+                            .city(expectedCityList.get(0))
+                            .startAt(currentDateTime.minusDays(1))
+                            .endAt(now().plusDays(1))
+                            .build(),
+                    Travel.builder()
+                            .users(givenUser)
+                            .city(expectedCityList.get(1))
+                            .startAt(currentDateTime.minusDays(1))
+                            .endAt(now().plusDays(1))
+                            .build()));
 
     // when
-
+    Travel actualTravelWithCityAndUsersById =
+            travelRepository
+                    .findTravelWithCityAndUsersById(expectedTravelList.get(0).getId())
+                    .orElseThrow(NotFoundTravelEntityException::new);
     // then
+    assertAll(
+            () -> assertEquals(expectedCityList.get(0), actualTravelWithCityAndUsersById.getCity()),
+            () -> assertEquals(givenUser, actualTravelWithCityAndUsersById.getUsers()),
+            () ->
+                    assertEquals(
+                            currentDateTime.minusDays(1).getSecond(), actualTravelWithCityAndUsersById.getStartAt().getSecond()),
+            () ->
+                    assertEquals(currentDateTime.plusDays(1).getSecond(), actualTravelWithCityAndUsersById.getEndAt().getSecond()));
   }
 
   @Test
@@ -99,7 +133,7 @@ class TravelRepositoryTest {
     // given
     List<Users> givenUserList = createGivenUserList();
 
-    List<City> givenCityList = createGivenCityList();
+    List<City> givenCityList = createGivenCityList(givenUserList.get(0));
 
     List<Travel> givenTravelList = createGivenTravelList(givenUserList, givenCityList);
 
@@ -115,7 +149,7 @@ class TravelRepositoryTest {
                 .build());
     // when
     List<City> actualCityList =
-        travelRepository.findCurrentTravelOrderByStartAtByUserId(2L).stream()
+        travelRepository.findCurrentTravelOrderByStartAtByUserId(givenUserList.get(1).getId()).stream()
             .map(Travel::getCity)
             .collect(Collectors.toList());
     // then
@@ -140,7 +174,7 @@ class TravelRepositoryTest {
     // given
     List<Users> givenUserList = createGivenUserList();
 
-    List<City> givenCityList = createGivenCityList();
+    List<City> givenCityList = createGivenCityList(givenUserList.get(0));
 
     List<Travel> givenTravelList = createGivenTravelList(givenUserList, givenCityList);
 
@@ -159,7 +193,7 @@ class TravelRepositoryTest {
                 .introContent(givenCityList.get(2).getIntroContent())
                 .build());
     // when
-    List<CityInfo> actualCityInfoList = travelRepository.findWillTravelOrderByStartAtAsc(1L, 10);
+    List<CityInfo> actualCityInfoList = travelRepository.findWillTravelOrderByStartAtAsc(givenUserList.get(0).getId(), 10);
 
     // then
 
@@ -204,12 +238,12 @@ class TravelRepositoryTest {
             createTravel(givenUserList.get(0), givenCityList.get(2), 1, 1)));
   }
 
-  private List<City> createGivenCityList() {
+  private List<City> createGivenCityList(Users users) {
     return cityRepository.saveAll(
         List.of(
-            City.builder().name("서울").introContent("여기는 서울!").build(),
-            City.builder().name("수원").introContent("여기는 수원!").build(),
-            City.builder().name("부산").introContent("여기는 부산!").build()));
+            City.builder().name("서울").introContent("여기는 서울!").users(users).build(),
+            City.builder().name("수원").introContent("여기는 수원!").users(users).build(),
+            City.builder().name("부산").introContent("여기는 부산!").users(users).build()));
   }
 
   private List<Users> createGivenUserList() {
