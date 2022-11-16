@@ -27,7 +27,7 @@ public class CityController {
   }
 
   @PutMapping
-  public ResponseEntity<ResultResponse> updateCity(@Valid CityUpdateRequest request) {
+  public ResponseEntity<ResultResponse> updateCity(@Valid @RequestBody CityUpdateRequest request) {
     CityInfo cityInfo = cityService.updateCityInfo(request);
     return ResponseEntity.ok(ResultResponse.of(ResultCode.UPDATE_CITY_SUCCESS, cityInfo));
   }
