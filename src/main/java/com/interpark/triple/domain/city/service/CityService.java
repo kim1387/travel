@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -87,9 +88,9 @@ public class CityService {
     CityInfoList cityInfoList = new CityInfoList();
     Set<CityInfo> secondCityInfoHashSet = new LinkedHashSet<>();
 
-    //    List<TravelInfo> travelInfosCurrentTraveling =
-    // travelRepository.findCurrentTravelOrderByStartAt(userId);
-    //    cityInfoList.addAllCityInfo(travelInfosCurrentTraveling);
+    List<CityInfo> cityInfosCurrentTraveling =
+        travelRepository.findCurrentTravelOrderByStartAt(userId, 10);
+    cityInfoList.addAllCityInfo(cityInfosCurrentTraveling);
     return null;
   }
 }

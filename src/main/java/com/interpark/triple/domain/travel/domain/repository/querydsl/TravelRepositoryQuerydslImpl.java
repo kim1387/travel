@@ -2,8 +2,6 @@ package com.interpark.triple.domain.travel.domain.repository.querydsl;
 
 import com.interpark.triple.domain.city.dto.CityInfo;
 import com.interpark.triple.domain.city.dto.QCityInfo;
-import com.interpark.triple.domain.travel.dto.QTravelInfo;
-import com.interpark.triple.domain.travel.dto.TravelInfo;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -23,10 +21,10 @@ public class TravelRepositoryQuerydslImpl implements TravelRepositoryQuerydsl {
   private final JPAQueryFactory queryFactory;
 
   @Override
-  public List<TravelInfo> findCurrentTravelOrderByStartAt(Long userId, Integer limit) {
+  public List<CityInfo> findCurrentTravelOrderByStartAt(Long userId, Integer limit) {
 
     return queryFactory
-        .select(new QTravelInfo(travel.city.name, travel.users.name, travel.startAt, travel.endAt))
+        .select(new QCityInfo(travel.city.name, travel.city.introContent, travel.city.createdDate, travel.city.updatedDate))
         .from(travel)
         .where(
             (travel.isActivated.eq(true))

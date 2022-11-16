@@ -4,7 +4,6 @@ import com.interpark.triple.domain.city.domain.entity.City;
 import com.interpark.triple.domain.city.domain.repository.CityRepository;
 import com.interpark.triple.domain.city.dto.CityInfo;
 import com.interpark.triple.domain.travel.domain.entity.Travel;
-import com.interpark.triple.domain.travel.dto.TravelInfo;
 import com.interpark.triple.domain.travel.exception.NotFoundTravelEntityException;
 import com.interpark.triple.domain.user.domain.entity.Users;
 import com.interpark.triple.domain.user.domain.entity.UsersRole;
@@ -23,8 +22,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static java.time.LocalDateTime.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static java.time.LocalDateTime.now;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DataJpaTest
 @Import({QuerydslConfig.class, JpaAuditingConfig.class})
@@ -85,29 +85,23 @@ class TravelRepositoryTest {
                     .endAt(currentDateTime.plusDays(2))
                     .build()));
 
-    List<TravelInfo> expectedCurrentTravelOrderByStartAtList =
+    List<CityInfo> expectedCurrentTravelOrderByStartAtList =
         Arrays.asList(
-            TravelInfo.builder()
-                .startTravelAt(currentDateTime.minusDays(1))
-                .endTravelAt(currentDateTime.plusDays(1))
-                .cityName(expectedCityList.get(2).getName())
-                .userName(givenUser.getName())
+                CityInfo.builder()
+                .name(expectedCityList.get(2).getName())
+                .introContent(expectedCityList.get(2).getIntroContent())
                 .build(),
-            TravelInfo.builder()
-                .startTravelAt(currentDateTime.minusDays(2))
-                .endTravelAt(currentDateTime.plusDays(1))
-                .cityName(expectedCityList.get(1).getName())
-                .userName(givenUser.getName())
+                CityInfo.builder()
+                .name(expectedCityList.get(1).getName())
+                .introContent(expectedCityList.get(1).getIntroContent())
                 .build(),
-            TravelInfo.builder()
-                .startTravelAt(currentDateTime.minusDays(3))
-                .endTravelAt(currentDateTime.plusDays(1))
-                .cityName(expectedCityList.get(0).getName())
-                .userName(givenUser.getName())
+                CityInfo.builder()
+                .name(expectedCityList.get(0).getName())
+                .introContent(expectedCityList.get(0).getIntroContent())
                 .build());
 
     // when
-    List<TravelInfo> actualCurrentTravelOrderByStartAtList =
+    List<CityInfo> actualCurrentTravelOrderByStartAtList =
         travelRepository.findCurrentTravelOrderByStartAt(givenTravelList.get(0).getId(), 10);
     // then
     assertAll(

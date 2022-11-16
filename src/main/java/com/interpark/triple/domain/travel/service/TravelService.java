@@ -92,10 +92,6 @@ public class TravelService {
     return mapTravelEntityToInfo(foundTravel);
   }
 
-  public List<TravelInfo> findCurrentTravelOrderByStartAt(Long userId) {
-    return travelRepository.findCurrentTravelOrderByStartAt(userId);
-  }
-
   public List<CityInfo> findWillTravelOrderByStartAtDesc(Long userId, Integer limit) {
     return travelRepository.findWillTravelOrderByStartAtAsc(userId, limit);
   }
