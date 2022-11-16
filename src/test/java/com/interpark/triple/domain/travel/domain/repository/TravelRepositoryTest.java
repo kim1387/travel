@@ -4,6 +4,7 @@ import com.interpark.triple.domain.city.domain.entity.City;
 import com.interpark.triple.domain.city.domain.repository.CityRepository;
 import com.interpark.triple.domain.city.dto.CityInfo;
 import com.interpark.triple.domain.travel.domain.entity.Travel;
+import com.interpark.triple.domain.travel.dto.TravelInfo;
 import com.interpark.triple.domain.travel.exception.NotFoundTravelEntityException;
 import com.interpark.triple.domain.user.domain.entity.Users;
 import com.interpark.triple.domain.user.domain.entity.UsersRole;
@@ -18,6 +19,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -40,6 +42,91 @@ class TravelRepositoryTest {
   }
 
   @Test
+  @DisplayName("여행 중인 도시 : 여행 시작일이 빠른 것부터 조회 test")
+  void findCurrentTravelOrderByStartAtTest() {
+    // given
+    Users givenUser = Users.builder().name("김기현").role(UsersRole.ROLE_USER).build();
+    usersRepository.save(givenUser);
+
+    List<City> expectedCityList =
+        cityRepository.saveAll(
+            List.of(
+                City.builder().name("서울").introContent("여기는 서울!").users(givenUser).build(),
+                City.builder().name("수원").introContent("여기는 수원!").users(givenUser).build(),
+                City.builder().name("광주").introContent("여기는 광주!").users(givenUser).build(),
+                City.builder().name("부산").introContent("여기는 부산!").users(givenUser).build()));
+    currentDateTime = now();
+    List<Travel> givenTravelList =
+        travelRepository.saveAll(
+            List.of(
+                Travel.builder()
+                    .users(givenUser)
+                    .city(expectedCityList.get(0))
+                    .startAt(currentDateTime.minusDays(3))
+                    .endAt(currentDateTime.plusDays(1))
+                    .build(),
+                Travel.builder()
+                    .users(givenUser)
+                    .city(expectedCityList.get(1))
+                    .startAt(currentDateTime.minusDays(2))
+                    .endAt(currentDateTime.plusDays(1))
+                    .build(),
+                Travel.builder()
+                    .users(givenUser)
+                    .city(expectedCityList.get(2))
+                    .startAt(currentDateTime.minusDays(1))
+                    .endAt(currentDateTime.plusDays(1))
+                    .build(),
+                // 여행 예정
+                Travel.builder()
+                    .users(givenUser)
+                    .city(expectedCityList.get(3))
+                    .startAt(currentDateTime.minusDays(-1))
+                    .endAt(currentDateTime.plusDays(2))
+                    .build()));
+
+    List<TravelInfo> expectedCurrentTravelOrderByStartAtList =
+        Arrays.asList(
+            TravelInfo.builder()
+                .startTravelAt(currentDateTime.minusDays(1))
+                .endTravelAt(currentDateTime.plusDays(1))
+                .cityName(expectedCityList.get(2).getName())
+                .userName(givenUser.getName())
+                .build(),
+            TravelInfo.builder()
+                .startTravelAt(currentDateTime.minusDays(2))
+                .endTravelAt(currentDateTime.plusDays(1))
+                .cityName(expectedCityList.get(1).getName())
+                .userName(givenUser.getName())
+                .build(),
+            TravelInfo.builder()
+                .startTravelAt(currentDateTime.minusDays(3))
+                .endTravelAt(currentDateTime.plusDays(1))
+                .cityName(expectedCityList.get(0).getName())
+                .userName(givenUser.getName())
+                .build());
+
+    // when
+    List<TravelInfo> actualCurrentTravelOrderByStartAtList =
+        travelRepository.findCurrentTravelOrderByStartAt(givenTravelList.get(0).getId(), 10);
+    // then
+    assertAll(
+        () -> assertEquals(3, actualCurrentTravelOrderByStartAtList.size()),
+        () ->
+            assertEquals(
+                expectedCurrentTravelOrderByStartAtList.get(0),
+                actualCurrentTravelOrderByStartAtList.get(0)),
+        () ->
+            assertEquals(
+                expectedCurrentTravelOrderByStartAtList.get(1),
+                actualCurrentTravelOrderByStartAtList.get(1)),
+        () ->
+            assertEquals(
+                expectedCurrentTravelOrderByStartAtList.get(2),
+                actualCurrentTravelOrderByStartAtList.get(2)));
+  }
+
+  @Test
   @DisplayName("travel Id로 travel 조회하기 (user 와 city Fetch join)")
   void findTravelWithCityAndUsersByIdTest() {
     // given
@@ -52,20 +139,21 @@ class TravelRepositoryTest {
                 City.builder().name("서울").introContent("여기는 서울!").users(givenUser).build(),
                 City.builder().name("수원").introContent("여기는 수원!").users(givenUser).build()));
     currentDateTime = now();
-    List<Travel> expectedTravelList = travelRepository.saveAll(
+    List<Travel> expectedTravelList =
+        travelRepository.saveAll(
             List.of(
-                    Travel.builder()
-                            .users(givenUser)
-                            .city(expectedCityList.get(0))
-                            .startAt(currentDateTime.minusDays(1))
-                            .endAt(now().plusDays(1))
-                            .build(),
-                    Travel.builder()
-                            .users(givenUser)
-                            .city(expectedCityList.get(1))
-                            .startAt(currentDateTime.minusDays(1))
-                            .endAt(now().plusDays(1))
-                            .build()));
+                Travel.builder()
+                    .users(givenUser)
+                    .city(expectedCityList.get(0))
+                    .startAt(currentDateTime.minusDays(1))
+                    .endAt(now().plusDays(1))
+                    .build(),
+                Travel.builder()
+                    .users(givenUser)
+                    .city(expectedCityList.get(1))
+                    .startAt(currentDateTime.minusDays(1))
+                    .endAt(now().plusDays(1))
+                    .build()));
 
     // when
     Travel actualTravelWithCityAndUsersById =
@@ -78,9 +166,12 @@ class TravelRepositoryTest {
         () -> assertEquals(givenUser, actualTravelWithCityAndUsersById.getUsers()),
         () ->
             assertEquals(
-                currentDateTime.minusDays(1).getSecond(), actualTravelWithCityAndUsersById.getStartAt().getSecond()),
+                currentDateTime.minusDays(1).getSecond(),
+                actualTravelWithCityAndUsersById.getStartAt().getSecond()),
         () ->
-            assertEquals(currentDateTime.plusDays(1).getSecond(), actualTravelWithCityAndUsersById.getEndAt().getSecond()));
+            assertEquals(
+                currentDateTime.plusDays(1).getSecond(),
+                actualTravelWithCityAndUsersById.getEndAt().getSecond()));
   }
 
   @Test
@@ -91,44 +182,48 @@ class TravelRepositoryTest {
     usersRepository.save(givenUser);
 
     List<City> expectedCityList =
-            cityRepository.saveAll(
-                    List.of(
-                            City.builder().name("서울").introContent("여기는 서울!").users(givenUser).build(),
-                            City.builder().name("수원").introContent("여기는 수원!").users(givenUser).build()));
-    currentDateTime = now();
-    List<Travel> expectedTravelList = travelRepository.saveAll(
+        cityRepository.saveAll(
             List.of(
-                    Travel.builder()
-                            .users(givenUser)
-                            .city(expectedCityList.get(0))
-                            .startAt(currentDateTime.minusDays(1))
-                            .endAt(now().plusDays(1))
-                            .build(),
-                    Travel.builder()
-                            .users(givenUser)
-                            .city(expectedCityList.get(1))
-                            .startAt(currentDateTime.minusDays(1))
-                            .endAt(now().plusDays(1))
-                            .build()));
+                City.builder().name("서울").introContent("여기는 서울!").users(givenUser).build(),
+                City.builder().name("수원").introContent("여기는 수원!").users(givenUser).build()));
+    currentDateTime = now();
+    List<Travel> expectedTravelList =
+        travelRepository.saveAll(
+            List.of(
+                Travel.builder()
+                    .users(givenUser)
+                    .city(expectedCityList.get(0))
+                    .startAt(currentDateTime.minusDays(1))
+                    .endAt(now().plusDays(1))
+                    .build(),
+                Travel.builder()
+                    .users(givenUser)
+                    .city(expectedCityList.get(1))
+                    .startAt(currentDateTime.minusDays(1))
+                    .endAt(now().plusDays(1))
+                    .build()));
 
     // when
     Travel actualTravelWithCityAndUsersById =
-            travelRepository
-                    .findTravelWithCityAndUsersById(expectedTravelList.get(0).getId())
-                    .orElseThrow(NotFoundTravelEntityException::new);
+        travelRepository
+            .findTravelWithCityAndUsersById(expectedTravelList.get(0).getId())
+            .orElseThrow(NotFoundTravelEntityException::new);
     // then
     assertAll(
-            () -> assertEquals(expectedCityList.get(0), actualTravelWithCityAndUsersById.getCity()),
-            () -> assertEquals(givenUser, actualTravelWithCityAndUsersById.getUsers()),
-            () ->
-                    assertEquals(
-                            currentDateTime.minusDays(1).getSecond(), actualTravelWithCityAndUsersById.getStartAt().getSecond()),
-            () ->
-                    assertEquals(currentDateTime.plusDays(1).getSecond(), actualTravelWithCityAndUsersById.getEndAt().getSecond()));
+        () -> assertEquals(expectedCityList.get(0), actualTravelWithCityAndUsersById.getCity()),
+        () -> assertEquals(givenUser, actualTravelWithCityAndUsersById.getUsers()),
+        () ->
+            assertEquals(
+                currentDateTime.minusDays(1).getSecond(),
+                actualTravelWithCityAndUsersById.getStartAt().getSecond()),
+        () ->
+            assertEquals(
+                currentDateTime.plusDays(1).getSecond(),
+                actualTravelWithCityAndUsersById.getEndAt().getSecond()));
   }
 
   @Test
-  @DisplayName("userId로 현재 여행중인 도시 여행시작일이 빠른 순으로 정렬하여 List<CityInfo> 조회하기")
+  @DisplayName("userId로 현재 여행중인 도시 여행시작일이 빠른 순으로 정렬하여 Travel List 조회하기")
   void findCityCurrentTravelOrderByStartAtByUserIdTest() {
     // given
     List<Users> givenUserList = createGivenUserList();
@@ -149,7 +244,9 @@ class TravelRepositoryTest {
                 .build());
     // when
     List<City> actualCityList =
-        travelRepository.findCurrentTravelOrderByStartAtByUserId(givenUserList.get(1).getId()).stream()
+        travelRepository
+            .findCurrentTravelOrderByStartAtByUserId(givenUserList.get(1).getId())
+            .stream()
             .map(Travel::getCity)
             .collect(Collectors.toList());
     // then
@@ -193,7 +290,8 @@ class TravelRepositoryTest {
                 .introContent(givenCityList.get(2).getIntroContent())
                 .build());
     // when
-    List<CityInfo> actualCityInfoList = travelRepository.findWillTravelOrderByStartAtAsc(givenUserList.get(0).getId(), 10);
+    List<CityInfo> actualCityInfoList =
+        travelRepository.findWillTravelOrderByStartAtAsc(givenUserList.get(0).getId(), 10);
 
     // then
 
