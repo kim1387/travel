@@ -18,10 +18,14 @@ import org.springframework.stereotype.Service;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class CityService {
+
+  private static final Integer USERS_CITY_READ_OFFSET = 10;
+
   private final CityRepository cityRepository;
 
   private final TravelRepository travelRepository;
@@ -84,13 +88,55 @@ public class CityService {
     return usersRepository.findUserById(usersId).orElseThrow(NotFoundUserEntityException::new);
   }
 
-  public CityInfoList findCityInfoByUserId(Long userId) {
+  public CityInfoList findCityInfoByUserIdWithConditions(Long userId) {
     CityInfoList cityInfoList = new CityInfoList();
-    Set<CityInfo> secondCityInfoHashSet = new LinkedHashSet<>();
 
     List<CityInfo> cityInfosCurrentTraveling =
-        travelRepository.findCurrentTravelOrderByStartAt(userId, 10);
+        travelRepository.findCurrentTravelOrderByStartAt(userId, USERS_CITY_READ_OFFSET);
     cityInfoList.addAllCityInfo(cityInfosCurrentTraveling);
+
+    Integer remainLimitSize = USERS_CITY_READ_OFFSET - cityInfosCurrentTraveling.size();
+    if (remainLimitSize > 0) {
+      Set<CityInfo> exposeCityIfoListWithOutDuplication =
+          getExposeCityIfoListWithOutDuplication(userId, remainLimitSize);
+      cityInfosCurrentTraveling.addAll(
+          exposeCityIfoListWithOutDuplication.stream()
+              .limit(remainLimitSize)
+              .collect(Collectors.toList()));
+    }
+
     return null;
+  }
+
+  private Set<CityInfo> getExposeCityIfoListWithOutDuplication(
+      Long userId, Integer remainLimitSize) {
+    Integer standardRemainLimitSize = remainLimitSize;
+    List<CityInfo> cityInfosWillTravelOrderByStartAtAsc =
+        travelRepository.findWillTravelOrderByStartAtAsc(userId, standardRemainLimitSize);
+    Set<CityInfo> secondCityInfoHashSet = new LinkedHashSet<>(cityInfosWillTravelOrderByStartAtAsc);
+    standardRemainLimitSize -= secondCityInfoHashSet.size();
+    if (standardRemainLimitSize <= 0) {
+      return secondCityInfoHashSet;
+    }
+    List<CityInfo> cityInfoRegisterTodayOrderByCreatedAt =
+        cityRepository.findCityInfoRegisterTodayOrderByCreatedAt(userId, standardRemainLimitSize);
+    secondCityInfoHashSet.addAll(cityInfoRegisterTodayOrderByCreatedAt);
+    standardRemainLimitSize = remainLimitSize;
+    standardRemainLimitSize -= secondCityInfoHashSet.size();
+    if (standardRemainLimitSize <= 0) {
+      return secondCityInfoHashSet;
+    }
+    List<CityInfo> cityInfoIfViewDuringSevenDaysOrderByRecentlyView =
+        cityRepository.findCityInfoIfViewDuringSevenDaysOrderByRecentlyView(
+            userId, standardRemainLimitSize);
+    secondCityInfoHashSet.addAll(cityInfoIfViewDuringSevenDaysOrderByRecentlyView);
+    standardRemainLimitSize = remainLimitSize;
+    standardRemainLimitSize -= secondCityInfoHashSet.size();
+    if (standardRemainLimitSize <= 0) {
+      return secondCityInfoHashSet;
+    }
+    List<CityInfo> cityInfosElse = cityRepository.findCityInfoById(userId, standardRemainLimitSize);
+    secondCityInfoHashSet.addAll(cityInfosElse);
+    return secondCityInfoHashSet;
   }
 }

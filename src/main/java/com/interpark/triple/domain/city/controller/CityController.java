@@ -46,7 +46,7 @@ public class CityController {
 
   @GetMapping("/users/{userId}")
   public ResponseEntity<ResultResponse> findCityByUserId(@PathVariable Long userId) {
-    CityInfoList cityInfoList = cityService.findCityInfoByUserId(userId);
+    CityInfoList cityInfoList = cityService.findCityInfoByUserIdWithConditions(userId);
     return ResponseEntity.ok(ResultResponse.of(ResultCode.GET_USERS_CITY_SUCCESS, cityInfoList));
   }
 }
