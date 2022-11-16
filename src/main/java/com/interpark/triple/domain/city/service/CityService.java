@@ -99,13 +99,13 @@ public class CityService {
     if (remainLimitSize > 0) {
       Set<CityInfo> exposeCityIfoListWithOutDuplication =
           getExposeCityIfoListWithOutDuplication(userId, remainLimitSize);
-      cityInfosCurrentTraveling.addAll(
+      cityInfoList.addAllCityInfo(
           exposeCityIfoListWithOutDuplication.stream()
               .limit(remainLimitSize)
               .collect(Collectors.toList()));
     }
 
-    return null;
+    return cityInfoList;
   }
 
   private Set<CityInfo> getExposeCityIfoListWithOutDuplication(
