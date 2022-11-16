@@ -19,6 +19,8 @@ services:
   mysqldb:
     image: mysql:8.0-oracle
     container_name: triple-coding-test-mysqldb
+    # 맥의 경우 mysql 실행을 위해 아래 옵션 주석을 풀어주세요
+#    platform: linux/amd64
     env_file:
       - "./.env"
     command:
