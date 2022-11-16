@@ -5,10 +5,13 @@ import com.interpark.triple.domain.city.dto.CityUpdateRequest;
 import com.interpark.triple.domain.user.domain.entity.Users;
 import com.interpark.triple.global.domain.BaseEntity;
 import lombok.*;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Objects;
+
+import static java.time.LocalDateTime.*;
 
 @Getter
 @Entity
@@ -29,6 +32,7 @@ public class City extends BaseEntity {
   @Column(name = "view", nullable = false)
   private Integer view;
 
+  @LastModifiedDate
   @Column(name = "latest_view_at", nullable = false)
   private LocalDateTime latestViewAt;
 
@@ -42,7 +46,7 @@ public class City extends BaseEntity {
     this.introContent = introContent;
     this.users = users;
     this.view = 0;
-    this.latestViewAt= LocalDateTime.now();
+    this.latestViewAt = now();
     this.isActivated = true;
   }
 
@@ -64,8 +68,8 @@ public class City extends BaseEntity {
   }
 
   public void updateCityInfo(CityUpdateRequest cityUpdateRequest) {
-      this.name = cityUpdateRequest.getCityName();
-      this.introContent = cityUpdateRequest.getCityIntroContent();
+    this.name = cityUpdateRequest.getCityName();
+    this.introContent = cityUpdateRequest.getCityIntroContent();
   }
 
   public void deleteCity() {
@@ -73,7 +77,12 @@ public class City extends BaseEntity {
   }
 
   @VisibleForTesting
-  public void setCreatedAt(LocalDateTime localDateTime){
+  public void setCreatedAt(LocalDateTime localDateTime) {
     this.createdDate = localDateTime;
   }
+
+  public void plusViewOne() {
+    this.view = this.view + 1;
+  }
+
 }

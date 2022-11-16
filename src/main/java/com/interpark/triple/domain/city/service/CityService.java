@@ -43,6 +43,8 @@ public class CityService {
 
   public CityInfo findCityInfoById(Long id) {
     City foundCity = findCityById(id);
+    foundCity.plusViewOne();
+    cityRepository.save(foundCity);
     return mapCityEntityToCityInfoResponse(foundCity);
   }
 
