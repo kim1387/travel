@@ -5,6 +5,6 @@ import com.interpark.triple.global.response.ErrorCode;
 
 public class NotFoundCityEntityException extends BusinessException {
     public NotFoundCityEntityException() {
-        super(ErrorCode.USER_NOT_FOUND);
+        super(ErrorCode.CITY_NOT_FOUND);
     }
 }
