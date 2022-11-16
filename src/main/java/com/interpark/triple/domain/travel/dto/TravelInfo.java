@@ -38,12 +38,12 @@ public class TravelInfo {
     TravelInfo that = (TravelInfo) o;
     return Objects.equals(cityName, that.cityName)
         && Objects.equals(userName, that.userName)
-        && Objects.equals(startTravelAt, that.startTravelAt)
-        && Objects.equals(endTravelAt, that.endTravelAt);
+        && Objects.equals(startTravelAt.getSecond(), that.startTravelAt.getSecond())
+        && Objects.equals(endTravelAt.getSecond(), that.endTravelAt.getSecond());
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(cityName, userName, startTravelAt, endTravelAt);
+    return Objects.hash(cityName, userName, startTravelAt.getSecond(), endTravelAt.getSecond());
   }
 }
