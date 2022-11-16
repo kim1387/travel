@@ -4,6 +4,7 @@ import com.interpark.triple.domain.city.domain.entity.City;
 import com.interpark.triple.domain.city.domain.repository.CityRepository;
 import com.interpark.triple.domain.city.dto.CityInfo;
 import com.interpark.triple.domain.travel.domain.entity.Travel;
+import com.interpark.triple.domain.travel.exception.NotFoundTravelEntityException;
 import com.interpark.triple.domain.user.domain.entity.Users;
 import com.interpark.triple.domain.user.domain.entity.UsersRole;
 import com.interpark.triple.domain.user.domain.repository.UsersRepository;
@@ -20,8 +21,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static java.time.LocalDateTime.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 @Import({QuerydslConfig.class, JpaAuditingConfig.class})
@@ -35,29 +36,51 @@ class TravelRepositoryTest {
 
   @BeforeEach
   void setUp() {
-    currentDateTime = LocalDateTime.now();
+    currentDateTime = now();
   }
 
   @Test
   @DisplayName("travel Id로 travel 조회하기 (user 와 city Fetch join)")
   void findTravelWithCityAndUsersByIdTest() {
     // given
-    List<Users> givenUserList =
-        List.of(
-            Users.builder().name("김기현").role(UsersRole.ROLE_USER).build(),
-            Users.builder().name("최범균").role(UsersRole.ROLE_USER).build());
-    usersRepository.saveAll(givenUserList);
+    Users givenUser = Users.builder().name("김기현").role(UsersRole.ROLE_USER).build();
+    usersRepository.save(givenUser);
 
-    cityRepository.saveAll(
-        List.of(
-            City.builder().name("서울").introContent("여기는 서울!").build(),
-            City.builder().name("수원").introContent("여기는 수원!").build()));
-
-    travelRepository.saveAll(List.of(Travel.builder().users(givenUserList.get(0)).build()));
+    List<City> expectedCityList =
+        cityRepository.saveAll(
+            List.of(
+                City.builder().name("서울").introContent("여기는 서울!").users(givenUser).build(),
+                City.builder().name("수원").introContent("여기는 수원!").users(givenUser).build()));
+    currentDateTime = now();
+    List<Travel> expectedTravelList = travelRepository.saveAll(
+            List.of(
+                    Travel.builder()
+                            .users(givenUser)
+                            .city(expectedCityList.get(0))
+                            .startAt(currentDateTime.minusDays(1))
+                            .endAt(now().plusDays(1))
+                            .build(),
+                    Travel.builder()
+                            .users(givenUser)
+                            .city(expectedCityList.get(1))
+                            .startAt(currentDateTime.minusDays(1))
+                            .endAt(now().plusDays(1))
+                            .build()));
 
     // when
-
+    Travel actualTravelWithCityAndUsersById =
+        travelRepository
+            .findTravelWithCityAndUsersById(expectedTravelList.get(0).getId())
+            .orElseThrow(NotFoundTravelEntityException::new);
     // then
+    assertAll(
+        () -> assertEquals(expectedCityList.get(0), actualTravelWithCityAndUsersById.getCity()),
+        () -> assertEquals(givenUser, actualTravelWithCityAndUsersById.getUsers()),
+        () ->
+            assertEquals(
+                currentDateTime.minusDays(1).getSecond(), actualTravelWithCityAndUsersById.getStartAt().getSecond()),
+        () ->
+            assertEquals(currentDateTime.plusDays(1).getSecond(), actualTravelWithCityAndUsersById.getEndAt().getSecond()));
   }
 
   @Test

@@ -64,8 +64,7 @@ public class City extends BaseEntity {
     return Objects.equals(id, city.id)
         && Objects.equals(name, city.name)
         && Objects.equals(introContent, city.introContent)
-        && Objects.equals(view, city.view)
-        && Objects.equals(latestViewAt, city.latestViewAt);
+        && Objects.equals(view, city.view);
   }
 
   @Override
