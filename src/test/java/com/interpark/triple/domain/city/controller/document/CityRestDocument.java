@@ -22,7 +22,7 @@ public class CityRestDocument {
             fieldWithPath("data.name").type(JsonFieldType.STRING).description("city 이름"),
             fieldWithPath("data.introContent")
                 .type(JsonFieldType.STRING)
-                .description("city에 대한 소개"),
+                .description("city 에 대한 소개"),
             fieldWithPath("data.createdAt").description("city 내용 생성 일자"),
             fieldWithPath("data.updatedAt").description("city 내용 수정 일자")));
   }
@@ -53,5 +53,22 @@ public class CityRestDocument {
                             .description("city 에 대한 소개"),
                     fieldWithPath("data.cityInfos.[].createdAt").description("city 내용 생성 일자"),
                     fieldWithPath("data.cityInfos.[].updatedAt").description("city 내용 수정 일자")));
+  }
+
+  public static RestDocumentationResultHandler getOneCityInfoByIdDocument() {
+    return document(
+            "/api/v1/city/{id}",
+            Preprocessors.preprocessRequest(Preprocessors.prettyPrint()),
+            Preprocessors.preprocessResponse(Preprocessors.prettyPrint()),
+            pathParameters(parameterWithName("id").description("조회할 city id")),
+            responseFields(
+                    fieldWithPath("code").type(JsonFieldType.STRING).description("Business code"),
+                    fieldWithPath("message").type(JsonFieldType.STRING).description("response message"),
+                    fieldWithPath("data.name").type(JsonFieldType.STRING).description("city 이름"),
+                    fieldWithPath("data.introContent")
+                            .type(JsonFieldType.STRING)
+                            .description("city에 대한 소개"),
+                    fieldWithPath("data.createdAt").description("city 내용 생성 일자"),
+                    fieldWithPath("data.updatedAt").description("city 내용 수정 일자")));
   }
 }

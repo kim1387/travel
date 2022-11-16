@@ -131,7 +131,7 @@ class CityControllerTest {
                 .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andDo(print())
-        .andDo(CityRestDocument.getCityInfoDocument());
+        .andDo(CityRestDocument.getOneCityInfoByIdDocument());
   }
 
   @Test
