@@ -7,6 +7,9 @@ services:
     image: ce19f003/triple-coding-test-backend
     depends_on:
       - mysqldb
+    environment:
+      spring.datasource.url: "jdbc:mysql://triple-coding-test-mysqldb:3306/test_db?useSSL=false&useLegacyDatetimeCode=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul&characterEncoding=UTF-8&autoReconnect=true&createDatabaseIfNotExist=true"
+
     ports:
       - '8080:8080'
     networks:

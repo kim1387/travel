@@ -5,6 +5,7 @@ plugins {
     id "org.asciidoctor.jvm.convert" version "3.3.2"
     id 'jacoco'
     id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
+    id 'com.google.cloud.tools.jib' version '3.2.1'
 
 }
 
@@ -27,6 +28,19 @@ ext {
     set('snippetsDir', file("build/generated-snippets"))
     set('springCloudVersion', "Hoxton.SR12")
     queryDslVersion = "5.0.0"
+}
+
+jib {
+    from {
+        image = "openjdk:11-jre-slim"
+    }
+    to {
+        image = "ce19f003/triple-coding-test-backend"
+        tags = ["latest"]
+    }
+    container {
+        jvmFlags = ["-Xms128m", "-Xmx128m"]
+    }
 }
 
 dependencies {
@@ -88,7 +102,7 @@ jacocoTestCoverageVerification {
                 value = 'COVEREDRATIO'
                 minimum = 0.00
             }
-            excludes = ["*.dto.*","*.global.*","*.dto*", "*.TripleApplication*", "*.config.*", "*.exceptions.*"]
+            excludes = ["*.dto.*", "*.global.*", "*.dto*", "*.TripleApplication*", "*.config.*", "*.exceptions.*"]
         }
     }
 }
