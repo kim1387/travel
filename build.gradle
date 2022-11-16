@@ -5,6 +5,7 @@ plugins {
     id "org.asciidoctor.jvm.convert" version "3.3.2"
     id 'jacoco'
     id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
+    id 'com.google.cloud.tools.jib' version '3.2.1'
 
 }
 
@@ -29,6 +30,19 @@ ext {
     queryDslVersion = "5.0.0"
 }
 
+jib {
+    from {
+        image = "openjdk:11-jre-slim"
+    }
+    to {
+        image = "ce19f003/triple-coding-test-backend"
+        tags = ["latest"]
+    }
+    container {
+        jvmFlags = ["-Xms128m", "-Xmx128m"]
+    }
+}
+
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
@@ -48,6 +62,8 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
+    asciidoctorExtensions 'org.springframework.restdocs:spring-restdocs-asciidoctor'
+
 }
 
 tasks.named('test') {
@@ -86,7 +102,7 @@ jacocoTestCoverageVerification {
                 value = 'COVEREDRATIO'
                 minimum = 0.00
             }
-            excludes = ["*.dto.*","*.global.*","*.dto", "*.TripleApplication*", "*.config.*", "*.exceptions.*"]
+            excludes = ["*.dto.*", "*.global.*", "*.dto*", "*.TripleApplication*", "*.config.*", "*.exceptions.*"]
         }
     }
 }
