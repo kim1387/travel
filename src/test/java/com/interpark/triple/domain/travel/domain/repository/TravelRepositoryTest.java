@@ -102,7 +102,7 @@ class TravelRepositoryTest {
 
     // when
     List<CityInfo> actualCurrentTravelOrderByStartAtList =
-        travelRepository.findCurrentTravelOrderByStartAt(givenTravelList.get(0).getId(), 10);
+        travelRepository.findCurrentTravelOrderByStartAt(givenTravelList.get(0).getUsers().getId(), 10);
     // then
     assertAll(
         () -> assertEquals(3, actualCurrentTravelOrderByStartAtList.size()),
