@@ -21,7 +21,8 @@ public class CityController {
   private final CityService cityService;
 
   @PostMapping
-  public ResponseEntity<ResultResponse> registerCity(@Valid CityRegisterRequest request) {
+  public ResponseEntity<ResultResponse> registerCity(
+      @Valid @RequestBody CityRegisterRequest request) {
     CityInfo cityInfo = cityService.registerCity(request);
     return ResponseEntity.ok(ResultResponse.of(ResultCode.CREATE_CITY_SUCCESS, cityInfo));
   }
