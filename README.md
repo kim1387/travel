@@ -3,12 +3,15 @@
 ![img.png](img.png)
 
 [RESTDocs 로 구현된 API 명세](src/docs/asciidoc/index.html)
+
+[RESTDocs 로 구현된 API 명세(모든 controller test후 실행 가능)](src/docs/asciidoc/index.adoc)
+
 [RESTDocs 로 구현된 API 명세 pdf](src/docs/asciidoc/api문서화.pdf)
 
 [TODO List](src/docs/TodoList.md)
 
 로컬 실행 후 사용 가능
-[Swagger-UI](http://localhost:8080/swagger-ui/index.html)
+[Swagger-UI 주소](http://localhost:8080/swagger-ui/index.html)
 ![img_2.png](img_2.png)
 
 Jacoco Code Coverage
@@ -34,3 +37,9 @@ docker-compose 파일에서 23번째 줄 주석을 풀어주세요!
 ```text
 http://localhost:8080/swagger-ui/index.html#/travel-controller/deleteTravel
 ```
+
+## 예외 처리 응답
+![img_3.png](img_3.png)
+
+## 정상적인 응답
+![img_4.png](img_4.png)
