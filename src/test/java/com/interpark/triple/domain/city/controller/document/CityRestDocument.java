@@ -18,7 +18,7 @@ public class CityRestDocument {
         requestFields(
             fieldWithPath("userId").type(JsonFieldType.NUMBER).description("userId"),
             fieldWithPath("cityName").type(JsonFieldType.STRING).description("city 이름"),
-            fieldWithPath("cityIntroContent").description("city 소개")),
+            fieldWithPath("cityIntroContent").type(JsonFieldType.STRING).description("city 소개")),
         responseFields(
             fieldWithPath("code").type(JsonFieldType.STRING).description("Business code"),
             fieldWithPath("message").type(JsonFieldType.STRING).description("response message"),
@@ -26,8 +26,8 @@ public class CityRestDocument {
             fieldWithPath("data.introContent")
                 .type(JsonFieldType.STRING)
                 .description("city 에 대한 소개"),
-            fieldWithPath("data.createdAt").description("city 내용 생성 일자"),
-            fieldWithPath("data.updatedAt").description("city 내용 수정 일자")));
+            fieldWithPath("data.createdAt").type(JsonFieldType.STRING).description("city 내용 생성 일자"),
+            fieldWithPath("data.updatedAt").type(JsonFieldType.STRING).description("city 내용 수정 일자")));
   }
 
   public static RestDocumentationResultHandler getDeleteCityDocument() {
@@ -39,7 +39,7 @@ public class CityRestDocument {
         responseFields(
             fieldWithPath("code").type(JsonFieldType.STRING).description("Business code"),
             fieldWithPath("message").type(JsonFieldType.STRING).description("response message"),
-            fieldWithPath("data").description("empty String")));
+            fieldWithPath("data").type(JsonFieldType.NULL).description("empty String")));
   }
 
   public static RestDocumentationResultHandler getCityInfoListByUserIdDocument() {
