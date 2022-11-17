@@ -63,14 +63,14 @@ class TravelControllerTest {
             .cityName("서을")
             .userName("김기현")
             .startTravelAt(now())
-            .startTravelAt(now().plusDays(2))
+            .endTravelAt(now().plusDays(2))
             .build();
     TravelCreateRequest createRequest =
         TravelCreateRequest.builder()
             .userId(1L)
             .cityId(1L)
             .travelStartAt(now())
-            .travelStartAt(now().plusDays(2))
+            .travelEndAt(now().plusDays(2))
             .build();
     // when
     when(travelService.createTravel(any())).thenReturn(returnTravelInfo);
@@ -121,7 +121,7 @@ class TravelControllerTest {
             .userId(1L)
             .cityId(1L)
             .travelStartAt(now())
-            .travelEndAt(now())
+            .travelEndAt(now().plusDays(2))
             .build();
     // when
     when(travelService.updateTravel(any())).thenReturn(returnTravelInfo);

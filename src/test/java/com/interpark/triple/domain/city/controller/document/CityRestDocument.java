@@ -39,7 +39,7 @@ public class CityRestDocument {
         responseFields(
             fieldWithPath("code").type(JsonFieldType.STRING).description("Business code"),
             fieldWithPath("message").type(JsonFieldType.STRING).description("response message"),
-            fieldWithPath("data").type(JsonFieldType.NULL).description("empty String")));
+            fieldWithPath("data").type(JsonFieldType.STRING).description("empty String")));
   }
 
   public static RestDocumentationResultHandler getCityInfoListByUserIdDocument() {

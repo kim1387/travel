@@ -15,10 +15,10 @@ public class TravelInfo {
 
   private final String userName;
 
-  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   private final LocalDateTime startTravelAt;
 
-  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   private final LocalDateTime endTravelAt;
 
   @Builder
