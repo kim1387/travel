@@ -50,7 +50,7 @@ dependencies {
     //querydsl 추가
     implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
     annotationProcessor "com.querydsl:querydsl-apt:${queryDslVersion}"
-    implementation('com.google.guava:guava:30.0-android')
+    implementation('com.google.guava:guava:31.1-android')
     //swagger-ui
     implementation 'org.springdoc:springdoc-openapi-ui:1.6.8'
     implementation 'org.flywaydb:flyway-core'
@@ -61,6 +61,10 @@ dependencies {
     runtimeOnly 'com.mysql:mysql-connector-j'
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
     annotationProcessor 'org.projectlombok:lombok'
+
+    implementation 'io.rest-assured:rest-assured-common:3.3.0'
+    testImplementation 'io.rest-assured:spring-mock-mvc:3.3.0'
+
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
     asciidoctorExtensions 'org.springframework.restdocs:spring-restdocs-asciidoctor'
