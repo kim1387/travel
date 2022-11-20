@@ -3,6 +3,7 @@ package com.interpark.triple.global.response;
 import lombok.*;
 import org.springframework.validation.BindingResult;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,8 +22,18 @@ public class ErrorResponse {
     this.businessCode = code.getCode();
   }
 
+  private ErrorResponse(ErrorCode code) {
+    this.errorMessage = code.getMessage();
+    this.businessCode = code.getCode();
+    this.errors = new ArrayList<>();
+  }
+
   public static ErrorResponse of(final ErrorCode code, final BindingResult bindingResult) {
     return new ErrorResponse(code, FieldError.of(bindingResult));
+  }
+
+  public static ErrorResponse of(ErrorCode code) {
+    return new ErrorResponse(code);
   }
 
   @Getter
