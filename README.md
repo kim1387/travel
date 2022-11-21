@@ -17,11 +17,6 @@
 Jacoco Code Coverage
 ![img_1.png](img_1.png)
 
-Jacoco 실행 방법
-```shell
-
-```
-
 ## 로컬에서의 실행 방법
 빠른 실행
 먼저 docker compose up으로 MySQL과 backend 컨테이너를 실행합니다. flyway를 통해 자동으로 데이터를 채워주는 script가 작동됩니다.
