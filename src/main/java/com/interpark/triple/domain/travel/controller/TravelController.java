@@ -20,14 +20,16 @@ public class TravelController {
   private final TravelService travelService;
 
   @PostMapping
-  public ResponseEntity<ResultResponse> createTravel(@Valid @RequestBody TravelCreateRequest request) {
+  public ResponseEntity<ResultResponse> createTravel(
+      @Valid @RequestBody TravelCreateRequest request) {
     TravelInfo travelInfo = travelService.createTravel(request);
 
     return ResponseEntity.ok(ResultResponse.of(ResultCode.CREATE_TRAVEL_SUCCESS, travelInfo));
   }
 
   @PutMapping
-  public ResponseEntity<ResultResponse> updateTravel(@Valid @RequestBody TravelUpdateRequest request) {
+  public ResponseEntity<ResultResponse> updateTravel(
+      @Valid @RequestBody TravelUpdateRequest request) {
     TravelInfo updatedTravelInfo = travelService.updateTravel(request);
 
     return ResponseEntity.ok(

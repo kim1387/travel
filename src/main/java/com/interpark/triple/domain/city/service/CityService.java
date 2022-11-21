@@ -47,7 +47,7 @@ public class CityService {
 
   public void deleteCity(Long id) {
     City foundCity =
-        cityRepository.findCityWithTravelById(id).orElseThrow(NotFoundCityEntityException::new);
+        cityRepository.findCityById(id).orElseThrow(NotFoundCityEntityException::new);
     if (!foundCity.getTravelList().isEmpty()) {
       throw new CantDeleteCityIfTravelExistException();
     }
