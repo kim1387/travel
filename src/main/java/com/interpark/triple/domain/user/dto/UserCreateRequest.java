@@ -1,12 +1,12 @@
 package com.interpark.triple.domain.user.dto;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 @Builder
 @Getter
-@RequiredArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserCreateRequest {
-    private final String name;
+    private String name;
+
 }
