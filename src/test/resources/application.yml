@@ -19,3 +19,8 @@ spring:
   flyway:
     enabled: false
     baseline-on-migrate: true
+logging:
+  level:
+    org:
+      hibernate:
+        type: trace
