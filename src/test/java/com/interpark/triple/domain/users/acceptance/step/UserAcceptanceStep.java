@@ -8,8 +8,8 @@ import org.springframework.http.MediaType;
 
 import static com.interpark.triple.domain.user.domain.entity.UsersRole.ROLE_USER;
 import static io.restassured.RestAssured.given;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.springframework.http.HttpHeaders.LOCATION;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class UserAcceptanceStep {
 
@@ -55,14 +55,10 @@ public class UserAcceptanceStep {
         .extract();
   }
 
-  public static String requestToCreateUserAndGetLocation(UserCreateRequest userCreateRequest) {
-    return requestToCreateUser(userCreateRequest).header(LOCATION);
-  }
 
   public static void assertThatUserInfo(ExtractableResponse<Response> response) {
     UserInfo expectedUserResponse = UserInfo.builder().name("김기현").role(ROLE_USER).build();
     UserInfo actualResponse = response.body().jsonPath().getObject("data", UserInfo.class);
-    System.out.println(actualResponse);
     assertAll(() -> assertEquals(expectedUserResponse, actualResponse));
   }
 }

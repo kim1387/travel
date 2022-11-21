@@ -31,7 +31,7 @@ class UserAcceptanceTest extends BaseAcceptanceTest {
     @Test
     void findOneUserTest() {
         // given
-        String createdLocation = requestToCreateUserAndGetLocation(USER_GIHYUN_CREATE_REQUEST);
+        requestToCreateUser(USER_GIHYUN_CREATE_REQUEST);
 
         // when
         ExtractableResponse<Response> response = requestToFindOneUser(1L);
