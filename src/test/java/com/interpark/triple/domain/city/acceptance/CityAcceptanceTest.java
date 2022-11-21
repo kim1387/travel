@@ -3,6 +3,7 @@ package com.interpark.triple.domain.city.acceptance;
 import com.interpark.triple.domain.city.acceptance.step.CityAcceptanceStep;
 import com.interpark.triple.domain.city.domain.entity.City;
 import com.interpark.triple.domain.city.domain.repository.CityRepository;
+import com.interpark.triple.domain.city.dto.CityRegisterRequest;
 import com.interpark.triple.domain.city.dto.CityUpdateRequest;
 import com.interpark.triple.domain.user.domain.entity.Users;
 import com.interpark.triple.domain.user.domain.repository.UsersRepository;
@@ -14,11 +15,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import static com.interpark.triple.domain.city.CityFixtures.CITY_SUWON_CREATE_REQUEST;
 import static com.interpark.triple.domain.city.acceptance.step.CityAcceptanceStep.*;
+import static com.interpark.triple.domain.user.domain.entity.UsersRole.ROLE_USER;
 import static com.interpark.triple.domain.users.UserFixtures.USER_GIHYUN_CREATE_ENTITY;
-import static com.interpark.triple.domain.users.UserFixtures.USER_GIHYUN_CREATE_REQUEST;
-import static com.interpark.triple.domain.users.acceptance.step.UserAcceptanceStep.requestToCreateUser;
 import static com.interpark.triple.global.acceptance.step.AcceptanceStep.assertThatStatusIsOk;
 import static com.interpark.triple.global.response.ResultCode.DELETE_CITY_SUCCESS;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -34,9 +33,16 @@ class CityAcceptanceTest extends BaseAcceptanceTest {
   @Test
   void createCityTest() {
     // given
-    requestToCreateUser(USER_GIHYUN_CREATE_REQUEST);
+    Users givenUsers = usersRepository.save(Users.builder().name("김기현").role(ROLE_USER).build());
+    CityRegisterRequest givenRequest =
+        CityRegisterRequest.builder()
+            .userId(givenUsers.getId())
+            .cityName("수원")
+            .cityIntroContent("간단한 수원 소개")
+            .build();
+
     // when
-    ExtractableResponse<Response> response = requestToCreateCity(CITY_SUWON_CREATE_REQUEST);
+    ExtractableResponse<Response> response = requestToCreateCity(givenRequest);
 
     // then
     assertThatStatusIsOk(response);

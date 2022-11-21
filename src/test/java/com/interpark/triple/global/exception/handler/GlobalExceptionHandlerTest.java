@@ -18,7 +18,6 @@ import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 
 import static com.interpark.triple.global.response.ErrorCode.*;
-import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -55,7 +54,6 @@ class GlobalExceptionHandlerTest {
                 .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isBadRequest())
         .andExpect(jsonPath("$.businessCode").value(INPUT_INVALID_VALUE.getCode()))
-        .andExpect(jsonPath("$.errors[*].field", containsInAnyOrder("intVar")))
         .andDo(print());
   }
 
