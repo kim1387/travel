@@ -9,7 +9,7 @@ plugins {
 
 }
 
-group = 'com.interpark'
+group = 'com.kim1387'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
 
@@ -35,7 +35,7 @@ jib {
         image = "openjdk:11-jre-slim"
     }
     to {
-        image = "ce19f003/triple-coding-test-backend"
+        image = "ce19f003/travel-backend"
         tags = ["latest"]
     }
     container {
@@ -107,7 +107,7 @@ jacocoTestCoverageVerification {
                 value = 'COVEREDRATIO'
                 minimum = 0.00
             }
-            excludes = ["*.dto.*", "*.global.*", "*.dto*", "*.TripleApplication*", "*.config.*", "*.exceptions.*"]
+            excludes = ["*.dto.*", "*.global.*", "*.dto*", "*.TravelApplication*", "*.config.*", "*.exceptions.*"]
         }
     }
 }
