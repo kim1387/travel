@@ -93,13 +93,7 @@ class CityControllerTest {
   @DisplayName("city 삭제 api")
   void deleteCity() throws Exception {
     // given
-    CityInfo cityInfo =
-        CityInfo.builder()
-            .name("한국")
-            .introContent("간단한 한국 소개")
-            .createdAt(now())
-            .updatedAt(now())
-            .build();
+
     // when
     doNothing().when(cityService).deleteCity(any());
 
@@ -141,7 +135,7 @@ class CityControllerTest {
     // given
     List<CityInfo> expectedCityInfoList = createCityInfos();
     // when
-    when(cityService.findCityInfoByUserIdWithConditions(any()))
+    when(cityService.findCityInfoByUserId(any()))
         .thenReturn(new CityInfoList(expectedCityInfoList));
 
     // then
@@ -183,7 +177,7 @@ class CityControllerTest {
 
   private static List<CityInfo> createCityInfos() {
     List<String> cityList = List.of("서울", "수원", "판교", "서울", "수원", "판교", "인천", "안양", "강릉", "원주");
-    List<CityInfo> newCityList = new ArrayList<CityInfo>(10);
+    List<CityInfo> newCityList = new ArrayList<>(10);
     for (String city : cityList) {
       newCityList.add(new CityInfo(city, "여기는 " + city, now(), now()));
     }
