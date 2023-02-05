@@ -1,0 +1,20 @@
+name: google-java-format
+
+on:
+  push:
+    branches-ignore:
+      - main
+  pull_request:
+    branches-ignore:
+      - main
+
+jobs:
+
+  formatting:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: axel-op/googlejavaformat-action@v3
+        with:
+          args: "--replace"
+          commitMessage: "Format : Google Java Format"
