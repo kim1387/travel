@@ -1,5 +1,12 @@
 package com.kim1387.travel.domain.travel.controller;
 
+import static java.time.LocalDateTime.now;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.kim1387.travel.domain.travel.controller.document.TravelRestDocument;
@@ -7,6 +14,7 @@ import com.kim1387.travel.domain.travel.dto.TravelCreateRequest;
 import com.kim1387.travel.domain.travel.dto.TravelInfo;
 import com.kim1387.travel.domain.travel.dto.TravelUpdateRequest;
 import com.kim1387.travel.domain.travel.service.TravelService;
+import java.nio.charset.StandardCharsets;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -22,15 +30,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
-
-import java.nio.charset.StandardCharsets;
-
-import static java.time.LocalDateTime.now;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
-import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(RestDocumentationExtension.class)
 @WebMvcTest(controllers = TravelController.class)

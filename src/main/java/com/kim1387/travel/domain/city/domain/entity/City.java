@@ -1,20 +1,19 @@
 package com.kim1387.travel.domain.city.domain.entity;
 
+import static java.time.LocalDateTime.now;
+
 import com.google.common.annotations.VisibleForTesting;
 import com.kim1387.travel.domain.city.dto.CityUpdateRequest;
 import com.kim1387.travel.domain.travel.domain.entity.Travel;
 import com.kim1387.travel.domain.user.domain.entity.Users;
 import com.kim1387.travel.global.domain.BaseEntity;
-import lombok.*;
-import org.springframework.data.annotation.LastModifiedDate;
-
-import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
-import static java.time.LocalDateTime.now;
+import javax.persistence.*;
+import lombok.*;
+import org.springframework.data.annotation.LastModifiedDate;
 
 @Getter
 @Entity

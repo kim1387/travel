@@ -11,10 +11,9 @@ import com.kim1387.travel.domain.travel.dto.TravelUpdateRequest;
 import com.kim1387.travel.domain.travel.exception.NotFoundTravelEntityException;
 import com.kim1387.travel.domain.user.domain.entity.Users;
 import com.kim1387.travel.domain.user.service.UsersLoginService;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor

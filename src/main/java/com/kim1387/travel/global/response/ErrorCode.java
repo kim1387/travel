@@ -3,10 +3,7 @@ package com.kim1387.travel.global.response;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-/**
- * Enum Naming Format : {주체}_{이유}
- * message format: 동사 명사형으로 마무리
- */
+/** Enum Naming Format : {주체}_{이유} message format: 동사 명사형으로 마무리 */
 @Getter
 @AllArgsConstructor
 public enum ErrorCode {
@@ -22,8 +19,6 @@ public enum ErrorCode {
 
   // TRAVEL
   TRAVEL_NOT_FOUND(400, "T001", "여행 계획을 찾을 수 없음"),
-
-
   ;
 
   private final int status;

@@ -1,41 +1,37 @@
 package com.kim1387.travel.domain.travel.acceptance;
 
+import static java.time.LocalDateTime.now;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import com.kim1387.travel.domain.city.domain.entity.City;
 import com.kim1387.travel.domain.city.domain.repository.CityRepository;
+import com.kim1387.travel.domain.travel.acceptance.step.TravelAcceptanceStep;
 import com.kim1387.travel.domain.travel.domain.entity.Travel;
 import com.kim1387.travel.domain.travel.domain.repository.TravelRepository;
 import com.kim1387.travel.domain.travel.dto.TravelCreateRequest;
 import com.kim1387.travel.domain.travel.dto.TravelUpdateRequest;
 import com.kim1387.travel.domain.user.domain.entity.Users;
 import com.kim1387.travel.domain.user.domain.repository.UsersRepository;
-import com.kim1387.travel.global.acceptance.BaseAcceptanceTest;
-import com.kim1387.travel.global.response.ResultResponse;
-import com.kim1387.travel.domain.travel.acceptance.step.TravelAcceptanceStep;
 import com.kim1387.travel.domain.users.UserFixtures;
+import com.kim1387.travel.global.acceptance.BaseAcceptanceTest;
 import com.kim1387.travel.global.acceptance.step.AcceptanceStep;
 import com.kim1387.travel.global.response.ResultCode;
+import com.kim1387.travel.global.response.ResultResponse;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
+import java.time.LocalDateTime;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.time.LocalDateTime;
-
-import static java.time.LocalDateTime.now;
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 @DisplayName("Travel 인수/통합 테스트")
 class TravelAcceptanceTest extends BaseAcceptanceTest {
 
-  @Autowired
-  UsersRepository usersRepository;
-  @Autowired
-  CityRepository cityRepository;
-  @Autowired
-  TravelRepository travelRepository;
+  @Autowired UsersRepository usersRepository;
+  @Autowired CityRepository cityRepository;
+  @Autowired TravelRepository travelRepository;
 
   @DisplayName("Travel 를 생성한다.")
   @Test
@@ -53,7 +49,8 @@ class TravelAcceptanceTest extends BaseAcceptanceTest {
             .build();
 
     // when
-    ExtractableResponse<Response> response = TravelAcceptanceStep.requestToCreateTravel(travelSuwonCreateRequest);
+    ExtractableResponse<Response> response =
+        TravelAcceptanceStep.requestToCreateTravel(travelSuwonCreateRequest);
 
     // then
     AcceptanceStep.assertThatStatusIsOk(response);
@@ -77,7 +74,8 @@ class TravelAcceptanceTest extends BaseAcceptanceTest {
                 .build());
 
     // when
-    ExtractableResponse<Response> response = TravelAcceptanceStep.requestToFindOneTravel(givenTravel.getId());
+    ExtractableResponse<Response> response =
+        TravelAcceptanceStep.requestToFindOneTravel(givenTravel.getId());
 
     // then
     AcceptanceStep.assertThatStatusIsOk(response);
@@ -109,7 +107,8 @@ class TravelAcceptanceTest extends BaseAcceptanceTest {
             .travelEndAt(currentTime.plusDays(3))
             .build();
     // when
-    ExtractableResponse<Response> response = TravelAcceptanceStep.requestToUpdateTravel(travelSuwonUpdateRequest);
+    ExtractableResponse<Response> response =
+        TravelAcceptanceStep.requestToUpdateTravel(travelSuwonUpdateRequest);
 
     // then
     AcceptanceStep.assertThatStatusIsOk(response);
@@ -134,7 +133,8 @@ class TravelAcceptanceTest extends BaseAcceptanceTest {
                 .build());
 
     // when
-    ExtractableResponse<Response> response = TravelAcceptanceStep.requestToDeleteTravel(givenTravel.getId());
+    ExtractableResponse<Response> response =
+        TravelAcceptanceStep.requestToDeleteTravel(givenTravel.getId());
 
     // then
     AcceptanceStep.assertThatStatusIsOk(response);
@@ -149,8 +149,12 @@ class TravelAcceptanceTest extends BaseAcceptanceTest {
   public static void assertThatDeleteTravelById(ExtractableResponse<Response> response) {
     ResultResponse actualResponse = response.body().jsonPath().getObject(".", ResultResponse.class);
     assertAll(
-        () -> Assertions.assertEquals(ResultCode.DELETE_TRAVEL_SUCCESS.getCode(), actualResponse.getCode()),
-        () -> Assertions.assertEquals(ResultCode.DELETE_TRAVEL_SUCCESS.getMessage(), actualResponse.getMessage()),
+        () ->
+            Assertions.assertEquals(
+                ResultCode.DELETE_TRAVEL_SUCCESS.getCode(), actualResponse.getCode()),
+        () ->
+            Assertions.assertEquals(
+                ResultCode.DELETE_TRAVEL_SUCCESS.getMessage(), actualResponse.getMessage()),
         () -> assertEquals("", actualResponse.getData()));
   }
 }

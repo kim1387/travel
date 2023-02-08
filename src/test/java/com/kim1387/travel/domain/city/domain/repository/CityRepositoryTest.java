@@ -1,24 +1,23 @@
 package com.kim1387.travel.domain.city.domain.repository;
 
+import static java.time.LocalDateTime.now;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import com.kim1387.travel.domain.city.domain.entity.City;
 import com.kim1387.travel.domain.city.dto.CityInfo;
 import com.kim1387.travel.domain.user.domain.entity.Users;
+import com.kim1387.travel.domain.user.domain.entity.UsersRole;
 import com.kim1387.travel.domain.user.domain.repository.UsersRepository;
 import com.kim1387.travel.global.config.JpaAuditingConfig;
 import com.kim1387.travel.global.config.QuerydslConfig;
-import com.kim1387.travel.domain.user.domain.entity.UsersRole;
+import java.util.Arrays;
+import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
-
-import java.util.Arrays;
-import java.util.List;
-
-import static java.time.LocalDateTime.now;
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DataJpaTest
 @Import({QuerydslConfig.class, JpaAuditingConfig.class})
@@ -31,7 +30,8 @@ class CityRepositoryTest {
   @DisplayName("city 저장 함수 test")
   void saveCityTest() {
     // given
-    Users givenUser = usersRepository.save(Users.builder().name("기현").role(UsersRole.ROLE_USER).build());
+    Users givenUser =
+        usersRepository.save(Users.builder().name("기현").role(UsersRole.ROLE_USER).build());
     City expectedCity =
         City.builder().name("도시").introContent("간단한 도시 소개").users(givenUser).build();
 
@@ -48,7 +48,8 @@ class CityRepositoryTest {
   @DisplayName("하루 이내에 등록된 도시를 가장 최근에 등록한 순으로 조회")
   void findCityInfoRegisterTodayOrderByCreatedAtTest() {
     // given
-    Users givenUser = usersRepository.save(Users.builder().name("기현").role(UsersRole.ROLE_USER).build());
+    Users givenUser =
+        usersRepository.save(Users.builder().name("기현").role(UsersRole.ROLE_USER).build());
     List<City> givenCityList = createGivenCityListWithFor(givenUser);
     createGivenCityCreatedInputDaysAgo(givenUser, 8);
 
@@ -80,7 +81,8 @@ class CityRepositoryTest {
   @DisplayName("최근 일주일 이내에 한 번 이상 조회된 도시, 가장 최근에 조회한 것부터 조회")
   void findCityInfoIfViewDuringSevenDaysOrderByRecentlyViewTest() {
     // given
-    Users givenUser = usersRepository.save(Users.builder().name("기현").role(UsersRole.ROLE_USER).build());
+    Users givenUser =
+        usersRepository.save(Users.builder().name("기현").role(UsersRole.ROLE_USER).build());
     List<City> givenCityList = createGivenCityListWithFor(givenUser);
     createGivenCityCreatedInputDaysAgo(givenUser, 2);
     createGivenCityNoView(givenUser);
@@ -120,7 +122,8 @@ class CityRepositoryTest {
   @DisplayName("id로 cityInfo 조회하는 함수 구현")
   void findCityInfoByIdWithLimitTest() {
     // given
-    Users givenUser = usersRepository.save(Users.builder().name("기현").role(UsersRole.ROLE_USER).build());
+    Users givenUser =
+        usersRepository.save(Users.builder().name("기현").role(UsersRole.ROLE_USER).build());
     List<City> givenCityList = createGivenCityListWithFor(givenUser);
     System.out.println(givenUser.getId());
     // when

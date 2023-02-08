@@ -13,17 +13,17 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class UserController {
 
-    private final UsersLoginService usersLoginService;
+  private final UsersLoginService usersLoginService;
 
-    @PostMapping("/api/v1/users")
-    public ResponseEntity<ResultResponse> registerUsers(@RequestBody UserCreateRequest request){
-        UserInfo userInfo = usersLoginService.registerUser(request);
-        return ResponseEntity.ok(ResultResponse.of(ResultCode.USER_CREATE_SUCCESS, userInfo));
-    }
+  @PostMapping("/api/v1/users")
+  public ResponseEntity<ResultResponse> registerUsers(@RequestBody UserCreateRequest request) {
+    UserInfo userInfo = usersLoginService.registerUser(request);
+    return ResponseEntity.ok(ResultResponse.of(ResultCode.USER_CREATE_SUCCESS, userInfo));
+  }
 
-    @GetMapping("/api/v1/users/{id}")
-    public ResponseEntity<ResultResponse> getUsers(@PathVariable Long id){
-        UserInfo userInfo = usersLoginService.findOneUsersById(id);
-        return ResponseEntity.ok(ResultResponse.of(ResultCode.GET_USER_SUCCESS, userInfo));
-    }
+  @GetMapping("/api/v1/users/{id}")
+  public ResponseEntity<ResultResponse> getUsers(@PathVariable Long id) {
+    UserInfo userInfo = usersLoginService.findOneUsersById(id);
+    return ResponseEntity.ok(ResultResponse.of(ResultCode.GET_USER_SUCCESS, userInfo));
+  }
 }

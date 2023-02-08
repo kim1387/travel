@@ -1,5 +1,9 @@
 package com.kim1387.travel.domain.city.acceptance.step;
 
+import static io.restassured.RestAssured.given;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import com.kim1387.travel.domain.city.dto.CityInfo;
 import com.kim1387.travel.domain.city.dto.CityRegisterRequest;
 import com.kim1387.travel.domain.city.dto.CityUpdateRequest;
@@ -7,10 +11,6 @@ import io.restassured.http.ContentType;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import org.springframework.http.MediaType;
-
-import static io.restassured.RestAssured.given;
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class CityAcceptanceStep {
 

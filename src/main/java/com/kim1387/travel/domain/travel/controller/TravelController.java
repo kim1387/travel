@@ -6,11 +6,10 @@ import com.kim1387.travel.domain.travel.dto.TravelUpdateRequest;
 import com.kim1387.travel.domain.travel.service.TravelService;
 import com.kim1387.travel.global.response.ResultCode;
 import com.kim1387.travel.global.response.ResultResponse;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
 
 @RequestMapping("/api/v1/travel")
 @RestController

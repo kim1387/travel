@@ -1,13 +1,13 @@
 package com.kim1387.travel.domain.city.controller.document;
 
-import org.springframework.restdocs.mockmvc.RestDocumentationResultHandler;
-import org.springframework.restdocs.operation.preprocess.Preprocessors;
-import org.springframework.restdocs.payload.JsonFieldType;
-
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
+
+import org.springframework.restdocs.mockmvc.RestDocumentationResultHandler;
+import org.springframework.restdocs.operation.preprocess.Preprocessors;
+import org.springframework.restdocs.payload.JsonFieldType;
 
 public class CityRestDocument {
   public static RestDocumentationResultHandler getCreateCityInfoDocument() {
@@ -27,7 +27,9 @@ public class CityRestDocument {
                 .type(JsonFieldType.STRING)
                 .description("city 에 대한 소개"),
             fieldWithPath("data.createdAt").type(JsonFieldType.STRING).description("city 내용 생성 일자"),
-            fieldWithPath("data.updatedAt").type(JsonFieldType.STRING).description("city 내용 수정 일자")));
+            fieldWithPath("data.updatedAt")
+                .type(JsonFieldType.STRING)
+                .description("city 내용 수정 일자")));
   }
 
   public static RestDocumentationResultHandler getDeleteCityDocument() {
@@ -66,10 +68,10 @@ public class CityRestDocument {
         "/city/update",
         Preprocessors.preprocessRequest(Preprocessors.prettyPrint()),
         Preprocessors.preprocessResponse(Preprocessors.prettyPrint()),
-            requestFields(
-                    fieldWithPath("cityId").type(JsonFieldType.NUMBER).description("city id"),
-                    fieldWithPath("cityName").type(JsonFieldType.STRING).description("city 이름"),
-                    fieldWithPath("cityIntroContent").description("city 소개")),
+        requestFields(
+            fieldWithPath("cityId").type(JsonFieldType.NUMBER).description("city id"),
+            fieldWithPath("cityName").type(JsonFieldType.STRING).description("city 이름"),
+            fieldWithPath("cityIntroContent").description("city 소개")),
         responseFields(
             fieldWithPath("code").type(JsonFieldType.STRING).description("Business code"),
             fieldWithPath("message").type(JsonFieldType.STRING).description("response message"),
@@ -83,19 +85,18 @@ public class CityRestDocument {
 
   public static RestDocumentationResultHandler getOneCityInfoByIdDocument() {
     return document(
-            "/city/get/one",
-            Preprocessors.preprocessRequest(Preprocessors.prettyPrint()),
-            Preprocessors.preprocessResponse(Preprocessors.prettyPrint()),
-            pathParameters(parameterWithName("id").description("조회할 city id")),
-
-            responseFields(
-                    fieldWithPath("code").type(JsonFieldType.STRING).description("Business code"),
-                    fieldWithPath("message").type(JsonFieldType.STRING).description("response message"),
-                    fieldWithPath("data.name").type(JsonFieldType.STRING).description("city 이름"),
-                    fieldWithPath("data.introContent")
-                            .type(JsonFieldType.STRING)
-                            .description("city 에 대한 소개"),
-                    fieldWithPath("data.createdAt").description("city 내용 생성 일자"),
-                    fieldWithPath("data.updatedAt").description("city 내용 수정 일자")));
+        "/city/get/one",
+        Preprocessors.preprocessRequest(Preprocessors.prettyPrint()),
+        Preprocessors.preprocessResponse(Preprocessors.prettyPrint()),
+        pathParameters(parameterWithName("id").description("조회할 city id")),
+        responseFields(
+            fieldWithPath("code").type(JsonFieldType.STRING).description("Business code"),
+            fieldWithPath("message").type(JsonFieldType.STRING).description("response message"),
+            fieldWithPath("data.name").type(JsonFieldType.STRING).description("city 이름"),
+            fieldWithPath("data.introContent")
+                .type(JsonFieldType.STRING)
+                .description("city 에 대한 소개"),
+            fieldWithPath("data.createdAt").description("city 내용 생성 일자"),
+            fieldWithPath("data.updatedAt").description("city 내용 수정 일자")));
   }
 }

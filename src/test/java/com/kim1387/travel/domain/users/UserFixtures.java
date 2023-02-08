@@ -1,9 +1,9 @@
 package com.kim1387.travel.domain.users;
 
+import static com.kim1387.travel.domain.user.domain.entity.UsersRole.ROLE_USER;
+
 import com.kim1387.travel.domain.user.domain.entity.Users;
 import com.kim1387.travel.domain.user.dto.UserCreateRequest;
-
-import static com.kim1387.travel.domain.user.domain.entity.UsersRole.ROLE_USER;
 
 public class UserFixtures {
 
