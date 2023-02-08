@@ -86,12 +86,11 @@ public class CityService {
   }
 
   public CityInfoList findCityInfoByUserId(Long userId) {
-    CityInfoList cityInfoList = new CityInfoList();
+
 
     List<CityInfo> cityInfosCurrentTraveling =
         travelRepository.findCurrentTravelOrderByStartAt(userId, USERS_CITY_READ_OFFSET);
-    cityInfoList.addAllCityInfo(cityInfosCurrentTraveling);
 
-    return cityInfoList;
+    return new CityInfoList(cityInfosCurrentTraveling);
   }
 }
