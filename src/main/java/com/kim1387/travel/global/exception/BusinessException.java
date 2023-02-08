@@ -1,6 +1,5 @@
 package com.kim1387.travel.global.exception;
 
-
 import com.kim1387.travel.global.response.ErrorCode;
 import lombok.Getter;
 

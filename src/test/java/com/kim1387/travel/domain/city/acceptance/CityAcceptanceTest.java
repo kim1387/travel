@@ -1,18 +1,21 @@
 package com.kim1387.travel.domain.city.acceptance;
 
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import com.kim1387.travel.domain.city.acceptance.step.CityAcceptanceStep;
 import com.kim1387.travel.domain.city.domain.entity.City;
 import com.kim1387.travel.domain.city.domain.repository.CityRepository;
 import com.kim1387.travel.domain.city.dto.CityRegisterRequest;
 import com.kim1387.travel.domain.city.dto.CityUpdateRequest;
 import com.kim1387.travel.domain.user.domain.entity.Users;
-import com.kim1387.travel.domain.user.domain.repository.UsersRepository;
-import com.kim1387.travel.global.acceptance.BaseAcceptanceTest;
-import com.kim1387.travel.global.response.ResultResponse;
 import com.kim1387.travel.domain.user.domain.entity.UsersRole;
+import com.kim1387.travel.domain.user.domain.repository.UsersRepository;
 import com.kim1387.travel.domain.users.UserFixtures;
+import com.kim1387.travel.global.acceptance.BaseAcceptanceTest;
 import com.kim1387.travel.global.acceptance.step.AcceptanceStep;
 import com.kim1387.travel.global.response.ResultCode;
+import com.kim1387.travel.global.response.ResultResponse;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Assertions;
@@ -20,22 +23,18 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 @DisplayName("City 인수/통합 테스트")
 class CityAcceptanceTest extends BaseAcceptanceTest {
 
-  @Autowired
-  UsersRepository usersRepository;
-  @Autowired
-  CityRepository cityRepository;
+  @Autowired UsersRepository usersRepository;
+  @Autowired CityRepository cityRepository;
 
   @DisplayName("City 를 생성한다.")
   @Test
   void createCityTest() {
     // given
-    Users givenUsers = usersRepository.save(Users.builder().name("김기현").role(UsersRole.ROLE_USER).build());
+    Users givenUsers =
+        usersRepository.save(Users.builder().name("김기현").role(UsersRole.ROLE_USER).build());
     CityRegisterRequest givenRequest =
         CityRegisterRequest.builder()
             .userId(givenUsers.getId())
@@ -59,7 +58,8 @@ class CityAcceptanceTest extends BaseAcceptanceTest {
     City givenCity = createSuwonCityEntity(givenUsers);
 
     // when
-    ExtractableResponse<Response> response = CityAcceptanceStep.requestToFindOneCity(givenCity.getId());
+    ExtractableResponse<Response> response =
+        CityAcceptanceStep.requestToFindOneCity(givenCity.getId());
 
     // then
     AcceptanceStep.assertThatStatusIsOk(response);
@@ -85,7 +85,8 @@ class CityAcceptanceTest extends BaseAcceptanceTest {
             .build();
 
     // when
-    ExtractableResponse<Response> response = CityAcceptanceStep.requestToUpdateCity(givenSuwonUpdateRequest);
+    ExtractableResponse<Response> response =
+        CityAcceptanceStep.requestToUpdateCity(givenSuwonUpdateRequest);
 
     // then
     AcceptanceStep.assertThatStatusIsOk(response);
@@ -100,7 +101,8 @@ class CityAcceptanceTest extends BaseAcceptanceTest {
     City givenCity = createSuwonCityEntity(givenUsers);
 
     // when
-    ExtractableResponse<Response> response = CityAcceptanceStep.requestToDeleteCity(givenCity.getId());
+    ExtractableResponse<Response> response =
+        CityAcceptanceStep.requestToDeleteCity(givenCity.getId());
 
     // then
     AcceptanceStep.assertThatStatusIsOk(response);
@@ -110,8 +112,12 @@ class CityAcceptanceTest extends BaseAcceptanceTest {
   public static void assertThatDeleteCityById(ExtractableResponse<Response> response) {
     ResultResponse actualResponse = response.body().jsonPath().getObject(".", ResultResponse.class);
     assertAll(
-        () -> Assertions.assertEquals(ResultCode.DELETE_CITY_SUCCESS.getCode(), actualResponse.getCode()),
-        () -> Assertions.assertEquals(ResultCode.DELETE_CITY_SUCCESS.getMessage(), actualResponse.getMessage()),
+        () ->
+            Assertions.assertEquals(
+                ResultCode.DELETE_CITY_SUCCESS.getCode(), actualResponse.getCode()),
+        () ->
+            Assertions.assertEquals(
+                ResultCode.DELETE_CITY_SUCCESS.getMessage(), actualResponse.getMessage()),
         () -> assertEquals("", actualResponse.getData()));
   }
 }

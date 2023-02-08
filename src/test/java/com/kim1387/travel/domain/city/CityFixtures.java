@@ -9,6 +9,4 @@ public class CityFixtures {
 
   public static final CityRegisterRequest CITY_SEOUL_CREATE_REQUEST =
       CityRegisterRequest.builder().userId(1L).cityName("서울").cityIntroContent("간단한 서울 소개").build();
-
-
 }

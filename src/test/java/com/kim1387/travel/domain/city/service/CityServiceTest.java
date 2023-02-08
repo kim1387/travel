@@ -1,12 +1,19 @@
 package com.kim1387.travel.domain.city.service;
 
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+
 import com.kim1387.travel.domain.city.domain.entity.City;
 import com.kim1387.travel.domain.city.domain.repository.CityRepository;
 import com.kim1387.travel.domain.city.dto.CityInfo;
 import com.kim1387.travel.domain.city.dto.CityRegisterRequest;
 import com.kim1387.travel.domain.user.domain.entity.Users;
-import com.kim1387.travel.domain.user.domain.repository.UsersRepository;
 import com.kim1387.travel.domain.user.domain.entity.UsersRole;
+import com.kim1387.travel.domain.user.domain.repository.UsersRepository;
+import java.util.Optional;
+import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -15,14 +22,6 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-import java.util.Optional;
-import java.util.stream.Stream;
-
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class CityServiceTest {

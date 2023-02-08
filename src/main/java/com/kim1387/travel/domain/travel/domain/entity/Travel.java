@@ -4,11 +4,10 @@ import com.kim1387.travel.domain.city.domain.entity.City;
 import com.kim1387.travel.domain.travel.dto.TravelUpdateRequest;
 import com.kim1387.travel.domain.user.domain.entity.Users;
 import com.kim1387.travel.global.domain.BaseEntity;
+import java.time.LocalDateTime;
+import javax.persistence.*;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
-
-import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Getter
 @Entity

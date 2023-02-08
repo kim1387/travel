@@ -4,11 +4,11 @@ services:
 
   backend:
     container_name: backend
-    image: ce19f003/triple-coding-test-backend
+    image: ce19f003/travel-backend
     depends_on:
       - mysqldb
     environment:
-      spring.datasource.url: "jdbc:mysql://triple-coding-test-mysqldb:3306/test_db?useSSL=false&useLegacyDatetimeCode=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul&characterEncoding=UTF-8&autoReconnect=true&createDatabaseIfNotExist=true"
+      spring.datasource.url: "jdbc:mysql://travel-mysqldb:3306/test_db?useSSL=false&useLegacyDatetimeCode=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul&characterEncoding=UTF-8&autoReconnect=true&createDatabaseIfNotExist=true"
 
     ports:
       - '8080:8080'
@@ -18,7 +18,7 @@ services:
 
   mysqldb:
     image: mysql:8.0-oracle
-    container_name: triple-coding-test-mysqldb
+    container_name: travel-mysqldb
     # 맥의 경우 mysql 실행을 위해 아래 옵션 주석을 풀어주세요
 #    platform: linux/amd64
     env_file:

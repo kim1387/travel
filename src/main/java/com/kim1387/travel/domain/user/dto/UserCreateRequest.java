@@ -7,6 +7,5 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserCreateRequest {
-    private String name;
-
+  private String name;
 }

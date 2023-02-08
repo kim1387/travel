@@ -1,10 +1,9 @@
 package com.kim1387.travel.domain.user.domain.entity;
 
 import com.kim1387.travel.global.domain.BaseEntity;
-import lombok.*;
-
-import javax.persistence.*;
 import java.util.Objects;
+import javax.persistence.*;
+import lombok.*;
 
 @Getter
 @Entity

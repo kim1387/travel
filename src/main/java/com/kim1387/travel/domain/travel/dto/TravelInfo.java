@@ -1,12 +1,11 @@
 package com.kim1387.travel.domain.travel.dto;
 
 import com.querydsl.core.annotations.QueryProjection;
+import java.time.LocalDateTime;
+import java.util.Objects;
 import lombok.Builder;
 import lombok.Getter;
 import org.springframework.format.annotation.DateTimeFormat;
-
-import java.time.LocalDateTime;
-import java.util.Objects;
 
 @Getter
 public class TravelInfo {

@@ -12,10 +12,9 @@ import com.kim1387.travel.domain.travel.domain.repository.TravelRepository;
 import com.kim1387.travel.domain.user.domain.entity.Users;
 import com.kim1387.travel.domain.user.domain.repository.UsersRepository;
 import com.kim1387.travel.domain.user.exception.NotFoundUserEntityException;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -43,8 +42,7 @@ public class CityService {
   }
 
   public void deleteCity(Long id) {
-    City foundCity =
-        cityRepository.findCityById(id).orElseThrow(NotFoundCityEntityException::new);
+    City foundCity = cityRepository.findCityById(id).orElseThrow(NotFoundCityEntityException::new);
     if (!foundCity.getTravelList().isEmpty()) {
       throw new CantDeleteCityIfTravelExistException();
     }
@@ -86,12 +84,10 @@ public class CityService {
   }
 
   public CityInfoList findCityInfoByUserId(Long userId) {
-    CityInfoList cityInfoList = new CityInfoList();
 
     List<CityInfo> cityInfosCurrentTraveling =
         travelRepository.findCurrentTravelOrderByStartAt(userId, USERS_CITY_READ_OFFSET);
-    cityInfoList.addAllCityInfo(cityInfosCurrentTraveling);
 
-    return cityInfoList;
+    return new CityInfoList(cityInfosCurrentTraveling);
   }
 }

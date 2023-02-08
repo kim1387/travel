@@ -1,13 +1,12 @@
 package com.kim1387.travel.domain.travel.dto;
 
+import java.time.LocalDateTime;
+import javax.validation.constraints.Future;
+import javax.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
-
-import javax.validation.constraints.Future;
-import javax.validation.constraints.NotNull;
-import java.time.LocalDateTime;
 
 @Builder
 @Getter

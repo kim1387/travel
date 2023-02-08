@@ -1,5 +1,9 @@
 package com.kim1387.travel.domain.travel.domain.repository;
 
+import static java.time.LocalDateTime.now;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import com.kim1387.travel.domain.city.domain.entity.City;
 import com.kim1387.travel.domain.city.domain.repository.CityRepository;
 import com.kim1387.travel.domain.city.dto.CityInfo;
@@ -10,6 +14,10 @@ import com.kim1387.travel.domain.user.domain.entity.UsersRole;
 import com.kim1387.travel.domain.user.domain.repository.UsersRepository;
 import com.kim1387.travel.global.config.JpaAuditingConfig;
 import com.kim1387.travel.global.config.QuerydslConfig;
+import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -17,15 +25,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
-
-import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import static java.time.LocalDateTime.now;
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DataJpaTest
 @Import({QuerydslConfig.class, JpaAuditingConfig.class})
@@ -88,22 +87,23 @@ class TravelRepositoryTest {
 
     List<CityInfo> expectedCurrentTravelOrderByStartAtList =
         Arrays.asList(
-                CityInfo.builder()
+            CityInfo.builder()
                 .name(expectedCityList.get(2).getName())
                 .introContent(expectedCityList.get(2).getIntroContent())
                 .build(),
-                CityInfo.builder()
+            CityInfo.builder()
                 .name(expectedCityList.get(1).getName())
                 .introContent(expectedCityList.get(1).getIntroContent())
                 .build(),
-                CityInfo.builder()
+            CityInfo.builder()
                 .name(expectedCityList.get(0).getName())
                 .introContent(expectedCityList.get(0).getIntroContent())
                 .build());
 
     // when
     List<CityInfo> actualCurrentTravelOrderByStartAtList =
-        travelRepository.findCurrentTravelOrderByStartAt(givenTravelList.get(0).getUsers().getId(), 10);
+        travelRepository.findCurrentTravelOrderByStartAt(
+            givenTravelList.get(0).getUsers().getId(), 10);
     // then
     assertAll(
         () -> assertEquals(3, actualCurrentTravelOrderByStartAtList.size()),
@@ -157,7 +157,9 @@ class TravelRepositoryTest {
             .orElseThrow(NotFoundTravelEntityException::new);
     // then
     assertAll(
-        () -> Assertions.assertEquals(expectedCityList.get(0), actualTravelWithCityAndUsersById.getCity()),
+        () ->
+            Assertions.assertEquals(
+                expectedCityList.get(0), actualTravelWithCityAndUsersById.getCity()),
         () -> Assertions.assertEquals(givenUser, actualTravelWithCityAndUsersById.getUsers()),
         () ->
             assertEquals(
@@ -205,7 +207,9 @@ class TravelRepositoryTest {
             .orElseThrow(NotFoundTravelEntityException::new);
     // then
     assertAll(
-        () -> Assertions.assertEquals(expectedCityList.get(0), actualTravelWithCityAndUsersById.getCity()),
+        () ->
+            Assertions.assertEquals(
+                expectedCityList.get(0), actualTravelWithCityAndUsersById.getCity()),
         () -> Assertions.assertEquals(givenUser, actualTravelWithCityAndUsersById.getUsers()),
         () ->
             assertEquals(

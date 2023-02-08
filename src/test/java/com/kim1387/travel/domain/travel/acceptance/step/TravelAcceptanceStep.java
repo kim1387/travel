@@ -1,5 +1,9 @@
 package com.kim1387.travel.domain.travel.acceptance.step;
 
+import static io.restassured.RestAssured.given;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import com.kim1387.travel.domain.city.dto.CityInfo;
 import com.kim1387.travel.domain.travel.dto.TravelCreateRequest;
 import com.kim1387.travel.domain.travel.dto.TravelInfo;
@@ -7,13 +11,8 @@ import com.kim1387.travel.domain.travel.dto.TravelUpdateRequest;
 import io.restassured.http.ContentType;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
-import org.springframework.http.MediaType;
-
 import java.time.LocalDateTime;
-
-import static io.restassured.RestAssured.given;
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.springframework.http.MediaType;
 
 public class TravelAcceptanceStep {
 
@@ -78,7 +77,8 @@ public class TravelAcceptanceStep {
         .extract();
   }
 
-  public static void assertThatTravelInfo(ExtractableResponse<Response> response, LocalDateTime currentTime) {
+  public static void assertThatTravelInfo(
+      ExtractableResponse<Response> response, LocalDateTime currentTime) {
     TravelInfo expectedTravelResponse =
         TravelInfo.builder()
             .cityName("수원")
@@ -90,14 +90,15 @@ public class TravelAcceptanceStep {
     assertAll(() -> assertEquals(expectedTravelResponse, actualResponse));
   }
 
-  public static void assertThatUpdateTravelInfo(ExtractableResponse<Response> response, LocalDateTime currentTime) {
+  public static void assertThatUpdateTravelInfo(
+      ExtractableResponse<Response> response, LocalDateTime currentTime) {
     TravelInfo expectedTravelResponse =
-            TravelInfo.builder()
-                    .cityName("수원")
-                    .userName("김기현")
-                    .startTravelAt(currentTime.plusDays(1))
-                    .endTravelAt(currentTime.plusDays(3))
-                    .build();
+        TravelInfo.builder()
+            .cityName("수원")
+            .userName("김기현")
+            .startTravelAt(currentTime.plusDays(1))
+            .endTravelAt(currentTime.plusDays(3))
+            .build();
     TravelInfo actualResponse = response.body().jsonPath().getObject("data", TravelInfo.class);
     assertAll(() -> assertEquals(expectedTravelResponse, actualResponse));
   }

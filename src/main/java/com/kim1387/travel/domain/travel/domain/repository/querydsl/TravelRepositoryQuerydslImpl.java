@@ -1,19 +1,18 @@
 package com.kim1387.travel.domain.travel.domain.repository.querydsl;
 
+import static com.kim1387.travel.domain.city.domain.entity.QCity.city;
+import static com.kim1387.travel.domain.travel.domain.entity.QTravel.travel;
+import static com.kim1387.travel.domain.user.domain.entity.QUsers.users;
+import static java.time.LocalDateTime.now;
+
 import com.kim1387.travel.domain.city.dto.CityInfo;
 import com.kim1387.travel.domain.city.dto.QCityInfo;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import lombok.RequiredArgsConstructor;
-
 import java.time.LocalDateTime;
 import java.util.List;
-
-import static com.kim1387.travel.domain.city.domain.entity.QCity.city;
-import static com.kim1387.travel.domain.travel.domain.entity.QTravel.travel;
-import static com.kim1387.travel.domain.user.domain.entity.QUsers.users;
-import static java.time.LocalDateTime.now;
+import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class TravelRepositoryQuerydslImpl implements TravelRepositoryQuerydsl {
@@ -61,8 +60,8 @@ public class TravelRepositoryQuerydslImpl implements TravelRepositoryQuerydsl {
         .innerJoin(travel.users, users)
         .on(travel.users.id.eq(userId))
         .innerJoin(travel.city, city)
-            .on(travel.city.users.id.eq(userId))
-            .orderBy(travel.startAt.asc())
+        .on(travel.city.users.id.eq(userId))
+        .orderBy(travel.startAt.asc())
         .limit(limit)
         .fetch();
   }
